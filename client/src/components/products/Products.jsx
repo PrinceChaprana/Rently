@@ -1,26 +1,11 @@
-import { useEffect, useState, useContext } from 'react';
-import {Link} from 'react-router-dom'
+
 import { Grid, Box } from '@mui/material';
-import { API } from '../../service/api';
 
 import Product from './Product';
-import { DataContext } from '../../context/DataProvider';
 
 
-export default function Products() {
-  const [products, getProducts] = useState([]);
-  const { account } = useContext(DataContext);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      let response = await API.getAllProducts({ username: account.username });
-      if (response.isSuccess) {
-        getProducts(response.data);
-        console.log(response.data);
-      }
-    }
-    fetchData();
-  }, []);
+export default function Products({products}) {
+  
 
   return (
     <>

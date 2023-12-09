@@ -9,6 +9,7 @@ import Login from './components/login/Login';
 import Header from './components/header/Header';
 import Profile from './components/profile/Profile';
 import Account from './components/account/Account';
+import SearchPage from './components/searchpage/SearchPage';
 import SellerPage from './components/sellerpage/SellerPage';
 import Create from './components/sellerpage/create/Create';
 
@@ -27,6 +28,7 @@ function App() {
   return (
     <DataProvider>
       <BrowserRouter>
+          <Header isAuthenticated={isAuthenticated}/>
         <Routes>
           <Route path='/login' element={<Login isUserAuthenticated={isUserAuthenticated} />} />
           <Route path='/' element={<Home isAuthenticated={isAuthenticated} />} />
@@ -39,6 +41,9 @@ function App() {
           <Route path='/sell' element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
             <Route path='/sell' element={<SellerPage />} />
           </Route>
+
+          <Route path='/search/:keyword' element={<SearchPage />} />
+
           <Route path='/create' element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
             <Route path='/create' element={<Create />} />
           </Route>

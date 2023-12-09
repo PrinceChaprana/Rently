@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import { InputBase , Box ,styled,Button } from '@mui/material';
+import { InputBase , Box ,styled,Button,FormControl } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -9,6 +9,7 @@ const Container = styled(Box)`
         border: 1px solid white;
         width: 50vw;
         display: flex;
+        flex-direction: row;
         justify-content: center;
         align-items: center;
         margin:0 1vw;
@@ -37,16 +38,21 @@ export default function SearchBar() {
         const [searchText,setSearchText] = useState('');
         const navigate = useNavigate();
         const handleChange = (e) => {
-                setSearchText(e.target.value);
+                if(e.target.value === ' ')
+                        setSearchText(e.target.value);
+                else
+                        setSearchText(e.target.value);
         }
         const SearchProduct = () =>{
-                navigate(`/search/+${searchText}`)
+                const query = searchText.split(/[ ]+/).join('+')
+                // console.log(query)
+                navigate(`/search/${query}`)
         }
 
   return (
     <div>
         <Container>
-                <InputSearchField onChange={(e)=>handleChange(e)} placeholder='Search the Product...'/>
+                <InputSearchField type='search' onSearch={()=>SearchProduct()} onChange={(e)=>handleChange(e)} placeholder='Search the Product...'/>
                 <SearchButton onClick={()=>SearchProduct()}><SearchIcon/></SearchButton>
         </Container>
     </div>

@@ -1,8 +1,10 @@
 import React from 'react'
 import {Box,styled} from '@mui/material'
+import {Link} from 'react-router-dom'
 
-const Logo = styled(Box)`
+const Logo = styled(Link)`
         font-family: 'Whisper', cursive;
+        text-decoration: none;
         display: flex;
         float: left;
         color: #000;
@@ -12,6 +14,6 @@ const Logo = styled(Box)`
 
 export default function LogoIcon() {
   return (
-        <Logo>RentApp</Logo>                           
+        <Logo to='/'>RentApp</Logo>                           
   )
 }

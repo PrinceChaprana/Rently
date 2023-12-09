@@ -32,10 +32,8 @@ export const updatePost = async (request, response) => {
 export const deletePost = async (request, response) => {
     try {
         const post = await Post.findById(request.params.id);
-        console.log('dsds')
         
         await post.deleteOne()
-        console.log('dsds')
         response.status(200).json('post deleted successfully');
     } catch (error) {
         response.status(500).json(error)
@@ -67,5 +65,23 @@ export const getAllPosts = async (request, response) => {
         response.status(200).json(posts);
     } catch (error) {
         response.status(500).json(error)
+    }
+}
+
+export const searchProductbyKeyword = async (request, response) => {
+    let keyword = request.params.keyword;
+    let keywords = keyword.split('+').join(' ');
+    console.log(keywords);
+    try {
+        let posts = await Post.find({
+            $or:[
+                {name: {$regex:keywords,$options:"i"}},
+                {discription: {$regex:keywords,$options:"i"}}
+            ]
+        });
+        console.log(posts);
+        response.status(200).json(posts);
+    } catch (error) {
+        response.status(500).json(error);
     }
 }

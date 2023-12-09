@@ -58,7 +58,7 @@ export default function Create() {
         const { account } = useContext(DataContext);
         const navigate = useNavigate();
 
-        const url = product.picture ? product.picture : '';
+        let url = product.picture ? product.picture : '';
 
         useEffect(() => {
                 const getImage = async () => {

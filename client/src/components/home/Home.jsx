@@ -7,7 +7,6 @@ import CategoryGrid from '../category/CategoryGrid'
 export default function Home({isAuthenticated}) {
   return (
         <>
-                <Header isAuthenticated={isAuthenticated} />
                 <div>Categories</div>
                 <Banner style={{width:'50vh'}} />
                 <CategoryGrid/>

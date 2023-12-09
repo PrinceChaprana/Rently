@@ -4,6 +4,10 @@ import {Link} from 'react-router-dom'
 import Logo from '../logo/Logo'
 import Products from '../products/Products'
 
+import { DataContext } from '../../context/DataProvider';
+import { API } from '../../service/api';
+import { useEffect, useState, useContext } from 'react';
+
 const Item = styled(Box)`
 
 `
@@ -16,6 +20,21 @@ const Container = styled(Grid)`
 `
 
 export default function SellerPage() {
+
+  const [products, getProducts] = useState([]);
+  const { account } = useContext(DataContext);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let response = await API.getAllProducts({ username: account.username });
+      if (response.isSuccess) {
+        getProducts(response.data);
+        console.log(response.data);
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
     <>
       <Grid container>
@@ -25,7 +44,7 @@ export default function SellerPage() {
         </Grid>
         <Grid item xs={12} sm={10} lg={10} style={{height:'100vh',overflow: 'scroll'}}>
             <Container>
-              <Products/>
+              <Products products = {products}/>
             </Container>
         </Grid>
       </Grid>
