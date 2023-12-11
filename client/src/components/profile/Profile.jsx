@@ -16,9 +16,6 @@ const Container = styled(Box)`
   width: 80vw;
   padding:1% 1%;
   background:#c3c3c3;
-  overflow-y: scroll;
-  scroll-behavior:smooth;
-  height:85vh;
 `
 const Wrapper = styled(Box)`
 width:60%;
@@ -71,7 +68,6 @@ const Address = styled(Box)`
 const Image = styled(Box)`
   width:90%;
   height:40%;
-  border:1px solid red;
   &>img{
     width: 100%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -86,15 +82,24 @@ export default function Profile() {
   const initUserData = UserData;
   let { username } = useParams();
   const [userData, setUserData] = useState(initUserData);
+  const [products, getProducts] = useState([]);
 
   useEffect(() => {
     const getUserData = async () => {
       let response = await API.getUserData(username);
       setUserData(response.data);
     }
+    const fetchData = async () => {
+      let response = await API.getAllProducts({ username: userData.email });
+      if (response.isSuccess) {
+        getProducts(response.data);
+        console.log(response.data);
+      }
+    }
     getUserData()
+    fetchData();
   }, [])
-  
+
   return (
     <>
       <Container>
@@ -115,7 +120,7 @@ export default function Profile() {
         </AccountDetailDiv>
         <ProductsDetailDiv>
         <Typography>Products For Sell</Typography>
-        <Products/>
+        <Products products = {products}/>
         </ProductsDetailDiv>
         
       </Container>

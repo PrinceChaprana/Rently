@@ -1,30 +1,18 @@
 
-import { Grid, Box } from '@mui/material';
+import { Grid, Box,styled } from '@mui/material';
 
 import Product from './Product';
-import {useEffect,useContext,useState} from 'react';
-import { DataContext } from '../../context/DataProvider';
-import { API } from '../../service/api';
 
-export default function Products() {
-  
-  const [products, getProducts] = useState([]);
-  const { account } = useContext(DataContext);
+const Container = styled(Box)`
+  width: 100%;
+  height: 80vh;
+  overflow-y:scroll;
+`
 
-  useEffect(() => {
-    const fetchData = async () => {
-      let response = await API.getAllProducts({ username: account.email });
-      if (response.isSuccess) {
-        getProducts(response.data);
-        console.log(response.data);
-      }
-    }
-    console.log(account)
-    fetchData();
-  }, []);
-
+export default function Products({products}) {
+ 
   return (
-    <>
+    <Container>
     <Grid container>
     {
       products?.length ? products.map(post => (
@@ -35,6 +23,6 @@ export default function Products() {
         No product for sell
       </Box>}
     </Grid>
-    </>
+    </Container>
   )
 }

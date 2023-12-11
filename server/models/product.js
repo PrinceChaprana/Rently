@@ -42,8 +42,14 @@ const PostSchema = mongoose.Schema({
     },
     pincode:{
         type:String
+    },
+    location:{
+        type:{type:String},
+        coordinates:[Number]
     }
 });
+
+PostSchema.index({location:'2dsphere'});
 
 
 const post = mongoose.model('post', PostSchema);

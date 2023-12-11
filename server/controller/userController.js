@@ -15,7 +15,7 @@ export const signupUser = async (request, response) => {
 
         let user = {
             email: request.body.email, name: request.body.name,
-            password: hashedPassword, latitude: request.body.latitude,
+            password: hashedPassword,location:{type:"Point",coordinates:[request.body.longitude,request.body.latitude]}, latitude: request.body.latitude,
             longitude: request.body.longitude, addressline: request.body.addressline,
             city: request.body.city, state: request.body.state, pincode: request.body.pincode,
             country: request.body.country,picture:request.body.picture

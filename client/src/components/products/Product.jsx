@@ -11,21 +11,25 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const Container = styled(Box)`
-  
+  min-width: 20vh;
   margin:1vw 1vw;
-  background: white;
   border-radius: 1rem;
-  text-align: left;;
+  text-align: left;
+  background: white;
   &>div>button{
     position: relative;
     float:right;
   }
 `
+const ImageWrapper = styled(Box)`
+  height: 60%;
+  display: flex;
+  justify-content: center;
+
+`
 const Image = styled('img')({
   objectFit: 'cover',
   width: '100%',
-  height: '30vh',
-  borderRadius: '1rem'
 });
 const Heading = styled(Box)`
   font-size: 1.2rem;
@@ -88,13 +92,13 @@ export default function Product({ product }) {
     let date3 = new Date();
     let diff = Math.abs(date3 - date2);
     let sec = Math.round(diff / 1000);
+    if (sec < 60) return sec.toString()+' sec';
     let min = Math.round(sec/60);
+    if(min<60) return min.toString()+' min'; 
     let hour = Math.round(min /60);
+    if(hour<60) return hour.toString()+' hours';
     let days = Math.round(hour/24);
-    if(days !==0) return days.toString()+' days';
-    else if(hour!==0) return hour.toString()+' hours';
-    else if(min!==0) return min.toString()+' min';
-    return sec.toString()+' sec';
+    return days.toString()+' days';    
     }
   return (
     <Container>
@@ -104,7 +108,9 @@ export default function Product({ product }) {
           <FavoriteBorderIcon onClick={() => deletePost()} />
         </IconContainer>
       </IconWrapper>
+      <ImageWrapper>
       <Image src={product.picture} />
+      </ImageWrapper>
       <div style={{ margin: '5%' }}>
         <UserName><AccountCircleIcon/><div onClick={()=>{navigate(`/profile/${product.username}`)}}>{product.username}</div></UserName>
         <Heading >{product.name}</Heading>

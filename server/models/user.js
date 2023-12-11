@@ -14,6 +14,11 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    location:{
+        type:{type:String},
+        coordinates:[Number]
+    }
+    ,
     latitude:{
         type:String
     },
@@ -39,7 +44,7 @@ const userSchema = mongoose.Schema({
         type:String
     }
 });
-
+userSchema.index({location:'2dsphere'});
 
 const user = mongoose.model('user', userSchema);
 

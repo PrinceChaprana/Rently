@@ -19,6 +19,8 @@ export const ProductData = {
         category: '',
         price: '',
         addressline: '',
+        longitude:'',
+        latitude:'',
         city: '',
         state: '',
         country: '',
@@ -26,3 +28,10 @@ export const ProductData = {
         postDate: new Date(),
         username: ''
 }
+
+export const LocationDefault = {
+        longitude: 77.280,
+        latitude: 28.390,
+        city: 'meerut',
+        pincode:250001
+      }

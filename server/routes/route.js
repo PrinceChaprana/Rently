@@ -19,10 +19,10 @@ router.post('/file/upload',upload.single('file'),uploadImage);
 router.get('/file/:filename', getImage);
 
 router.get('/products/:id', authenticateToken, getPost);
-router.get('/products', authenticateToken, getAllPosts);
+router.get('/products',  getAllPosts);
 router.delete('/delete/:id', authenticateToken, deletePost);
 
-router.get('/search/:keyword',searchProductbyKeyword)
+router.get('/search',searchProductbyKeyword)
 
 router.post('/create',authenticateToken, createPost);
 
