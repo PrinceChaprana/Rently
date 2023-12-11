@@ -2,10 +2,26 @@
 import { Grid, Box } from '@mui/material';
 
 import Product from './Product';
+import {useEffect,useContext,useState} from 'react';
+import { DataContext } from '../../context/DataProvider';
+import { API } from '../../service/api';
 
-
-export default function Products({products}) {
+export default function Products() {
   
+  const [products, getProducts] = useState([]);
+  const { account } = useContext(DataContext);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let response = await API.getAllProducts({ username: account.email });
+      if (response.isSuccess) {
+        getProducts(response.data);
+        console.log(response.data);
+      }
+    }
+    console.log(account)
+    fetchData();
+  }, []);
 
   return (
     <>

@@ -15,12 +15,28 @@ const userSchema = mongoose.Schema({
         required: true
     },
     latitude:{
-        type:String,
-        required:false
+        type:String
     },
     longitude:{
-        type:String,
-        required:false
+        type:String
+    },
+    addressline:{
+        type:String
+    },
+    city:{
+        type:String
+    },
+    country:{
+        type:String
+    },
+    state:{
+        type:String
+    },
+    pincode:{
+        type:String
+    },
+    picture:{
+        type:String
     }
 });
 

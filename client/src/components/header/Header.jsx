@@ -9,6 +9,7 @@ import SearchBar from '../searchbar/SearchBar';
 import Login from '../login/Login';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { DataContext } from '../../context/DataProvider';
+import { UserData } from '../../constant/variable';
 
 
 
@@ -42,7 +43,7 @@ const UsernameWrapper = styled(Button)`
 `
 
 
-export default function Header({ isAuthenticated }) {
+export default function Header({ isAuthenticated ,isUserAuthenticated}) {
 
         const { account } = useContext(DataContext);
         //drop down menu of user icon
@@ -54,6 +55,14 @@ export default function Header({ isAuthenticated }) {
         const handleClose = () => {
                 setAnchorEl(null);
         };
+        const logout = () => {
+                isUserAuthenticated(false);
+                account(UserData);
+        
+                sessionStorage.removeItem('refreshToken');
+                sessionStorage.removeItem('accessToken');
+                handleClose();
+        }
 
 
 
@@ -84,11 +93,11 @@ export default function Header({ isAuthenticated }) {
                                                                         'aria-labelledby': 'basic-button',
                                                                 }}
                                                         >
-                                                                <MenuItem onClick={handleClose}><Link to='/profile' style={{textDecoration:'none'}}>Profile</Link></MenuItem>
+                                                                <MenuItem onClick={handleClose}><Link to={`/profile/${account.email}`} style={{textDecoration:'none'}}>Profile</Link></MenuItem>
                                                                 <MenuItem onClick={handleClose}><Link to='/account' style={{textDecoration:'none'}}>My account</Link></MenuItem>
                                                                 <MenuItem onClick={handleClose}><Link to='/sell' style={{textDecoration:'none'}}>Sell</Link></MenuItem>
                                                                 
-                                                                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                                                                <MenuItem onClick={logout}>Logout</MenuItem>
                                                         </Menu>
                                                 </div>
                                                 :

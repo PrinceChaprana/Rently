@@ -25,12 +25,23 @@ const PostSchema = mongoose.Schema({
         type: String,
         required: true   
     },
-    address: {
-        type: String,
-        required: true   
-    },
     postDate: {
         type: Date
+    },
+    addressline:{
+        type:String
+    },
+    city:{
+        type:String
+    },
+    country:{
+        type:String
+    },
+    state:{
+        type:String
+    },
+    pincode:{
+        type:String
     }
 });
 

@@ -10,13 +10,14 @@ const Container = styled(Box)`
 `
 
 export default function SearchPage() {
-  const {keyword} = useParams();
+  let {keyword} = useParams();
   const location = useLocation();
-  const [products,setProducts] = useState({});
+  let [products,setProducts] = useState({});
 
   useEffect(()=>{
     const fetchProduct = async()=>{
       let response = await API.searchProduct(keyword);
+      console.log(response)
       if(response.isSuccess) setProducts(response.data);
       //else
         //show errors
@@ -24,7 +25,7 @@ export default function SearchPage() {
     //const keyword = location.search?.split('=')[1];
     fetchProduct();
 
-  },[]);
+  },[keyword]);
 
   return (
     <Container>

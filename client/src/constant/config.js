@@ -28,6 +28,7 @@ export const API_NOTIFICATION_MESSAGES = {
 export const SERVICE_URLS = {
         userLogin: { url: '/login', method: 'POST' },
         userSignup: { url: '/signup', method: 'POST' },
+        getUserData : {url:'/profile',method: 'GET',query:true},
         uploadFile:{url: 'file/upload', method: 'POST'},
         createProduct:{url:'/create', method: 'POST'},
         deletePost: { url: '/delete', method: 'DELETE', query: true },

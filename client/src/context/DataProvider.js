@@ -1,10 +1,11 @@
 import { createContext, useState } from "react";
+import { UserData } from "../constant/variable";
 
 
 export const DataContext = createContext(null);
 
 const DataProvider = ({ children }) => {
-    const [ account, setAccount ] = useState({ name: '', username: '' });
+    const [ account, setAccount ] = useState(UserData);
         
     return (
         <DataContext.Provider value={{ 

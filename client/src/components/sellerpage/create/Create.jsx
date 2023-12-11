@@ -4,10 +4,13 @@ import { TextField, styled, Box, Button, FormControl } from '@mui/material'
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import { API } from '../../../service/api';
 import { DataContext } from '../../../context/DataProvider';
+import { ProductData } from '../../../constant/variable';
 
 const Container = styled(Box)`
         width: 50vw;
-        height:90vh;
+        max-height: 85vh;
+        height: fit-content;
+        overflow-y: scroll;
         background:#fff;
         border-radius: 1rem;
         display: flex;
@@ -40,18 +43,10 @@ const StyledButton = styled(Button)`
         background: #00a7e6;
         color: white
 `;
-const productInit = {
-        name: '',
-        discription: '',
-        picture: '',
-        category: '',
-        price: '',
-        address: '',
-        postDate: new Date().toDateString(),
-        username: ''
-}
+
 
 export default function Create() {
+        let productInit = ProductData;
         const [file, setFile] = useState('');
         const [product, setProduct] = useState(productInit);
 
@@ -72,7 +67,12 @@ export default function Create() {
                         }
                 }
                 getImage();
-                product.username = account.username;
+                product.username = account.email;
+                product.addressline = account.addressline;
+                product.city = account.city;
+                product.state = account.state;
+                product.pincode = account.pincode;
+                product.country = account.country;
         }, [file])
 
         const handleChange = (e) => {
@@ -105,7 +105,6 @@ export default function Create() {
 
                                 <TextField label='Name' name='name' onChange={(e) => handleChange(e)}></TextField>
                                 <TextField label='Discription' name='discription' onChange={(e) => handleChange(e)}></TextField>
-                                <TextField label='Address' name='address' onChange={(e) => handleChange(e)}></TextField>
                                 <TextField label='Price' name='price' onChange={(e) => handleChange(e)}></TextField>
                                 <TextField label='category' name='category' onChange={(e) => handleChange(e)}></TextField>
                                 <StyledButton onClick={()=>uploadProduct()}>Post</StyledButton>

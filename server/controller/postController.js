@@ -52,15 +52,16 @@ export const getPost = async (request, response) => {
 
 export const getAllPosts = async (request, response) => {
     let username = request.query.username;
-    let category = request.query.category;
+    let pincode = request.query.pincode;
+    let city = request.query.city;
     let posts;
     try {
         if(username) 
             posts = await Post.find({ username: username });
-        else if (category) 
-            posts = await Post.find({ categories: category });
-        else 
-            posts = await Post.find({});
+        else if (pincode) 
+            posts = await Post.find({ pincode: pincode });
+        else if(city)
+            posts = await Post.find({city:city});
             
         response.status(200).json(posts);
     } catch (error) {

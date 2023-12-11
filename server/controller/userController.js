@@ -13,7 +13,13 @@ export const signupUser = async (request, response) => {
         // const hashedPassword = await bcrypt.hash(request.body.password, salt);
         const hashedPassword = await bcrypt.hash(request.body.password, 10);
 
-        const user = { email: request.body.email, name: request.body.name, password: hashedPassword,latitude: request.body.latitude, longitude: request.body.longitude}
+        let user = {
+            email: request.body.email, name: request.body.name,
+            password: hashedPassword, latitude: request.body.latitude,
+            longitude: request.body.longitude, addressline: request.body.addressline,
+            city: request.body.city, state: request.body.state, pincode: request.body.pincode,
+            country: request.body.country,picture:request.body.picture
+        }
 
         const newUser = new User(user);
         await newUser.save();
@@ -26,7 +32,7 @@ export const signupUser = async (request, response) => {
 
 
 export const loginUser = async (request, response) => {
-    let user = await User.findOne({ username: request.body.email });
+    let user = await User.findOne({ email: request.body.username });
     if (!user) {
         return response.status(400).json({ msg: 'Username does not match' });
     }
@@ -34,21 +40,29 @@ export const loginUser = async (request, response) => {
     try {
         let match = await bcrypt.compare(request.body.password, user.password);
         if (match) {
-            const accessToken = jwt.sign(user.toJSON(), process.env.ACCESS_SECRET_KEY, { expiresIn: '15m'});
+            const accessToken = jwt.sign(user.toJSON(), process.env.ACCESS_SECRET_KEY, { expiresIn: '15m' });
             const refreshToken = jwt.sign(user.toJSON(), process.env.REFRESH_SECRET_KEY);
-            
+
             const newToken = new Token({ token: refreshToken });
             await newToken.save();
-        
+
             console.log(user.email)
-            response.status(200).json({ accessToken: accessToken, refreshToken: refreshToken,name: user.name, username: user.email });
-        
+            response.status(200).json({ accessToken: accessToken, refreshToken: refreshToken, userData : user });
+
         } else {
             response.status(400).json({ msg: 'Password does not match' })
         }
     } catch (error) {
         response.status(500).json({ msg: 'error while login the user' })
     }
+}
+
+export const getUserData = async(request, response) => {
+    let username = request.params.username;
+    let user = await User.findOne({ email: username})
+    if(!user) return response.status(400).json({ msg: 'User does not exist'});
+    let data = {picture:user.picture,email: user.email, name: user.name,latitude: user.latitude,longitude: user.longitude,addressline: user.addressline, city: user.city,state: user.state, pincode: user.pincode,country: user.country}
+    return response.status(200).json(data);
 }
 
 export const logoutUser = async (request, response) => {

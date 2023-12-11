@@ -28,13 +28,14 @@ function App() {
   return (
     <DataProvider>
       <BrowserRouter>
-          <Header isAuthenticated={isAuthenticated}/>
+          <Header isAuthenticated={isAuthenticated} isUserAuthenticated = {isUserAuthenticated}/>
         <Routes>
           <Route path='/login' element={<Login isUserAuthenticated={isUserAuthenticated} />} />
           <Route path='/' element={<Home isAuthenticated={isAuthenticated} />} />
-          <Route path='/profile' element={<PrivateRoute isAuthenticated={isAuthenticated} />} >
-            <Route path='/profile' element={<Profile />} />
+          <Route path='/profile/:username' element={<PrivateRoute isAuthenticated={isAuthenticated} />} >
+            <Route path='/profile/:username' element={<Profile />} />
           </Route>
+          
           <Route path='/account' element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
             <Route path='/account' element={<Account />} />
           </Route>

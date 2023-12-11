@@ -8,6 +8,7 @@ import { API } from '../../service/api';
 import { DataContext } from '../../context/DataProvider';
 
 import './styles.css';
+import { UserData } from '../../constant/variable';
 
 const Wrapper = styled(Box)`
   display: flex;
@@ -35,10 +36,10 @@ const SubHeading = styled(Box)`
 const Logo = styled(Box)`
         font-family: 'Whisper', cursive;
         display: flex;
-        margin: 20vh 10vw 1vh 10vw;
         float: left;
         color: #000;
         font-size:16vh;
+        margin-left:10vw;
 `
 
 const FormWrapper = styled(Box)`
@@ -50,22 +51,9 @@ const FormWrapper = styled(Box)`
   & > div{
     margin: 1% 1%;
     width: 80%;
-
+    
   }
-  & > button, & > p{
-    margin: 1% 1%;
-  }
-
 `
-
-
-const initialSignUp = {
-  email: '',
-  name: '',
-  password: '',
-  latitude: '',
-  longitude: ''
-}
 
 const initialLogin = {
   username: '',
@@ -73,6 +61,7 @@ const initialLogin = {
 }
 
 export default function Login({isUserAuthenticated}) {
+  let initialSignUp = UserData;
 
   const [state, setState] = useState('login');
   const [login, setlogin] = useState(initialLogin);
@@ -125,8 +114,8 @@ export default function Login({isUserAuthenticated}) {
 
         sessionStorage.setItem('accessToken', `Bearer ${response.data.accessToken}`);
         sessionStorage.setItem('refreshToken', `Bearer ${response.data.refreshToken}`);
-        setAccount({ name: response.data.name, username: response.data.username });
-        console.log(response.data.username);
+        setAccount(response.data.userData);
+        console.log(response.data.userData)
         isUserAuthenticated(true)
         setlogin(initialLogin);
         navigate('/');
@@ -164,8 +153,8 @@ export default function Login({isUserAuthenticated}) {
                 Please Login to your account to continue further
               </SubHeading>
             </HalfWrapper>
-            <HalfWrapper>
-              <Logo>RentApp</Logo>
+            <HalfWrapper >
+              <Logo style={{margin: '20vh 10vw 1vh 10vw'}}>RentApp</Logo>
               <FormWrapper>
                 <TextField
                   required
@@ -190,9 +179,10 @@ export default function Login({isUserAuthenticated}) {
           </Wrapper>
           :
           <Wrapper>
-            <HalfWrapper>
+            <HalfWrapper >
               <Logo>RentApp</Logo>
               <FormWrapper>
+                
                 <TextField
                   required
                   id="outlined-required"
@@ -215,6 +205,46 @@ export default function Login({isUserAuthenticated}) {
                   type="password"
                   autoComplete="current-password"
                 />
+
+                <TextField
+                  id="outlined-password-input"
+                  label="Address Line"
+                  onChange={(e) => signupValueChange(e)}
+                  name='addressline'
+                  autoComplete="current-password"
+                />
+                <div className='city'>
+                <TextField
+                  id="outlined-password-input"
+                  label="City"
+                  onChange={(e) => signupValueChange(e)}
+                  name='city'
+                  autoComplete="current-password"
+                />
+                <TextField
+                id="outlined-password-input"
+                label="State"
+                onChange={(e) => signupValueChange(e)}
+                name='state'
+                autoComplete="current-password"
+                />
+                </div>
+                <div className='city'>
+                <TextField
+                  id="outlined-password-input"
+                  label="Pin Code"
+                  onChange={(e) => signupValueChange(e)}
+                  name='pincode'
+                  autoComplete="current-password"
+                />
+                <TextField
+                  id="outlined-password-input"
+                  label="Country"
+                  onChange={(e) => signupValueChange(e)}
+                  name='country'
+                  autoComplete="current-password"
+                />
+                </div>
                 <Button varient='standard' onClick={() => getLocation()}>Get Location</Button>
 
                 <Button variant='contained' onClick={() => signupUser()} >Sign Up</Button>
