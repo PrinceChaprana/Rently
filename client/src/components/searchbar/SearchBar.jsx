@@ -5,30 +5,34 @@ import SearchIcon from '@mui/icons-material/Search';
 
 
 const Container = styled(Box)`
+        display: flex;
         background: black;
         border: 1px solid white;
-        width: 50vw;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
+        width: 100%;
+        justify-content: space-evenly;
         align-items: center;
-        margin:0 1vw;
+        height: 70%;
+        margin: 1% 0;
+        padding:1vh 3vw;
+        border-radius: 5rem;
+
 `
-const SearchButton = styled(Button)`
+const SearchButton = styled(Box)`
         color: #fff;
-        float: right;
-        position: relative;
-        &>svg{
-                height: 32px;
-        }
+        width:10%;
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+        padding:1vh 1vw ;
 
 `
 const InputSearchField = styled(InputBase)`
-        width: 100%;
-        padding:1% 5%;
+        width: 90%;
+        height: 100%;
+        padding: 1% 1%;
         color:white;
         &>input{
-                border-bottom: 1px solid white;
+                
         }
 `
 
@@ -53,7 +57,9 @@ export default function SearchBar() {
     <div>
         <Container>
                 <InputSearchField type='search' onSearch={()=>SearchProduct()} onChange={(e)=>handleChange(e)} placeholder='Search the Product...'/>
-                <SearchButton onClick={()=>SearchProduct()}><SearchIcon/></SearchButton>
+                <SearchButton>
+                        <div  onClick={()=>SearchProduct()}><SearchIcon/></div>
+                </SearchButton>
         </Container>
     </div>
   )

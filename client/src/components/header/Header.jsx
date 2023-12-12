@@ -16,19 +16,40 @@ import { UserData } from '../../constant/variable';
 const Container = styled(Box)`
         display: flex;
         align-items: center;
+        justify-content: space-between;
         background: #000;
         height: 10vh;
         color: white;
+        width: 100vw;
+        
 `
 const Logo = styled(Link)`
-text-decoration: none;
+        text-decoration: none;
         font-family: 'Whisper', cursive;
         display: flex;
-        margin: 0 10vw 0 10vw;
+        width: 10vw;
+        padding: 0 3vw;
         float: left;
         color: #fff;
-        font-size:6vh;
+        font-size:4vh;
         background: #000;
+`
+const SearchbarWrapper = styled(Box)`
+        width:50vw;
+        height: 100%;
+        @media screen and (max-width:426px) {
+                display: none;
+        }
+`
+const SearchbarWrapper2 = styled(Box)`
+        display: none;
+        @media screen and (max-width:426px) {
+                display: block;
+                width: 100%;
+                padding: 0 5vw;
+                justify-content: center;
+                height: 100%;
+        }
 `
 const UserIcon = styled(AccountCircleIcon)`
         font-size: 3rem;
@@ -40,6 +61,14 @@ const UsernameWrapper = styled(Button)`
         float: right;
         margin-right: 3vw;
         color:white;
+        width: 100%;
+        &>div{
+                font-size: 1vw;
+                overflow: hidden;
+                white-space: wrap;
+                text-overflow: ellipsis;
+        }
+        
 `
 
 
@@ -70,10 +99,10 @@ export default function Header({ isAuthenticated ,isUserAuthenticated}) {
                 <>
                         <Container>
                                 <Logo to='/'>RentApp</Logo>
-                                <SearchBar style={{ width: '100px' }} />
+                                <SearchbarWrapper ><SearchBar /></SearchbarWrapper>
                                 {
                                         isAuthenticated ?
-                                                <div style={{ width: '100%' }}>
+                                                <div style={{ width: '10vw' }}>
                                                         <UsernameWrapper
                                                                 id="basic-button"
                                                                 aria-controls={open ? 'basic-menu' : undefined}
@@ -82,7 +111,7 @@ export default function Header({ isAuthenticated ,isUserAuthenticated}) {
                                                                 onClick={handleClick}
                                                         >
                                                                 <UserIcon />
-                                                                {account.name}
+                                                                <div>{account.name}</div>
                                                         </UsernameWrapper>
                                                         <Menu
                                                                 id="basic-menu"
@@ -101,9 +130,10 @@ export default function Header({ isAuthenticated ,isUserAuthenticated}) {
                                                         </Menu>
                                                 </div>
                                                 :
-                                                <Link to={'/login'} style={{ textDecoration: 'none', color: 'white' }}>Login/Sign Up</Link>
+                                                <Link to={'/login'} style={{ textDecoration: 'none',width:'10vw',fontSize:'3vh', color: 'white' }}>Login / Sign Up</Link>
                                 }
                         </Container>
+                        <SearchbarWrapper2><SearchBar /></SearchbarWrapper2>
                 </>
         )
 }

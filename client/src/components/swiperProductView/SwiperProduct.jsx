@@ -7,9 +7,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-
-import './styles.css';
-
 // import required modules
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
@@ -29,17 +26,39 @@ export default function SwiperProduct({ products }) {
         return (
                 <Container>
                         <Swiper
-                                spaceBetween={30}
-                                slidesPerView={4}
+                                spaceBetween={10}
+                                slidesPerView={1}
                                 autoplay={{
                                         delay: 2500,
                                         disableOnInteraction: false,
                                 }}
+                                loop={true}
+                                navigation={true}
+                                breakpoints={{
+                                        375: {
+                                                slidesPerView: 2,
+                                                spaceBetween: 20,
+                                              },
+                                        426: {
+                                          slidesPerView: 2,
+                                          spaceBetween: 20,
+                                        },
+                                        700: {
+                                          slidesPerView: 3,
+                                          spaceBetween: 30,
+                                        },
+                                        924: {
+                                          slidesPerView: 4,
+                                          spaceBetween: 20,
+                                        },
+                                        1024:{
+                                                slidesPerView:4,
+                                                spaceBetween: 20,
+                                        }
+                                      }}
                                 pagination={{
                                         clickable: true,
                                 }}
-                                loop={true}
-                                navigation={true}
                                 modules={[Autoplay, Pagination, Navigation]}
                                 className="mySwiper"
                         >

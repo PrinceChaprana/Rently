@@ -8,11 +8,13 @@ export const createPost = async (request, response) => {
             name: request.body.name, discription: request.body.discription,
             picture: request.body.picture, username: request.body.username, password: request.body.password,
             category: request.body.category, price: request.body.price,
-            postData: request.body.postData, addressline: request.body.addressline,
+            postDate: request.body.postDate, addressline: request.body.addressline,
             city: request.body.city, state: request.body.state, country: request.body.country,
             pincode: request.body.pincode, location: { type: "Point", coordinates: [request.body.longitude, request.body.latitude] }
         };
+        console.log('postData'+postData);
         const post = await new Post(postData);
+        console.log('saved post' + post)
         post.save();
 
         response.status(200).json('Post saved successfully');
