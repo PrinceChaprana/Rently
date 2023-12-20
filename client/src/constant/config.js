@@ -34,4 +34,5 @@ export const SERVICE_URLS = {
         deletePost: { url: '/delete', method: 'DELETE', query: true },
         getAllProducts:{url: '/products', method: 'GET', params: true},
         searchProduct:{url:'/search',method: 'GET',params:true},
+        wishlist:{url:'/wishlist',method:'PUT',params:true},
 }

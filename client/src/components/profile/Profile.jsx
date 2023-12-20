@@ -1,11 +1,9 @@
-import { useState, useContext, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { Button, Box, styled, Typography, TextField } from '@mui/material';
+import { Box, styled, Typography, TextField } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import EditIcon from '@mui/icons-material/Edit';
 import { API } from '../../service/api';
-import { DataContext } from '../../context/DataProvider';
-import {UserData} from '../../constant/variable'
+import { UserData } from '../../constant/variable'
 
 import Products from '../products/Products'
 
@@ -37,10 +35,9 @@ text-align: right;
   padding-right:5%;
 
 }
-  &>div{
+  & > div{
     width:70%;
   }
-
 `
 
 const AccountDetailDiv = styled(Box)`
@@ -48,7 +45,7 @@ const AccountDetailDiv = styled(Box)`
 `
 const ProductsDetailDiv = styled(Box)`
   width:60vw;
-  &>p{
+  & > p {
     font-size:2rem;
     font-weight:bold;
     text-align: center;
@@ -90,7 +87,7 @@ export default function Profile() {
       setUserData(response.data);
     }
     const fetchData = async () => {
-      let response = await API.getAllProducts({ username: userData.email });
+      let response = await API.getAllProducts({ username: username });
       if (response.isSuccess) {
         getProducts(response.data);
         console.log(response.data);
@@ -107,9 +104,9 @@ export default function Profile() {
           <Image>
             {
               userData.picture !== '' ?
-                <img src = {userData.picture}/>
-              :
-              <AccountCircleIcon style={{ fontSize: '30vh' }} />
+                <img src={userData.picture} />
+                :
+                <AccountCircleIcon style={{ fontSize: '30vh' }} />
             }
           </Image>
           <Name>{userData.name}</Name>
@@ -119,10 +116,10 @@ export default function Profile() {
           </Address>
         </AccountDetailDiv>
         <ProductsDetailDiv>
-        <Typography>Products For Sell</Typography>
-        <Products products = {products}/>
+          <Typography>Products For Sell</Typography>
+          <Products products={products} />
         </ProductsDetailDiv>
-        
+
       </Container>
     </>
   )

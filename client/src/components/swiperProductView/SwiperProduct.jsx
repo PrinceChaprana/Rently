@@ -23,17 +23,21 @@ const Container = styled(Box)`
 
 
 export default function SwiperProduct({ products }) {
+        const [infocus,setFocus] = useState(false);
+
         return (
-                <Container>
+                <Container onMouseEnter={()=>setFocus(true)} onMouseLeave={()=>setFocus(false)}>
                         <Swiper
                                 spaceBetween={10}
                                 slidesPerView={1}
                                 autoplay={{
-                                        delay: 2500,
+                                        delay:3000,
                                         disableOnInteraction: false,
                                 }}
-                                loop={true}
                                 navigation={true}
+                                pagination={{
+                                        clickable: true,
+                                }}
                                 breakpoints={{
                                         375: {
                                                 slidesPerView: 2,
@@ -52,13 +56,11 @@ export default function SwiperProduct({ products }) {
                                           spaceBetween: 20,
                                         },
                                         1024:{
-                                                slidesPerView:4,
+                                                slidesPerView:5,
                                                 spaceBetween: 20,
                                         }
                                       }}
-                                pagination={{
-                                        clickable: true,
-                                }}
+                               
                                 modules={[Autoplay, Pagination, Navigation]}
                                 className="mySwiper"
                         >

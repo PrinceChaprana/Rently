@@ -7,6 +7,7 @@ import { API } from '../../service/api';
 import { DataContext } from '../../context/DataProvider';
 
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
+import { UserData } from '../../constant/variable';
 
 
 const Container = styled(Box)`
@@ -46,23 +47,19 @@ text-align: right;
   }
 
 `
+//new file 
 
-const initUserData = {
-  email: '',
-  name: '',
-  password: '',
-  latitude: '',
-  longitude: '',
-  addressline: '',
-  city: '',
-  state: '',
-  country: '',
-  pincode: ''
-}
+const ImageWrapper = styled(Box)`
+  width:40vw;
+  height:50vh;
+  &>div>div{
+    font-size: 100%;
+  }
+`
 
 function Profile() {
   const { username } = useParams();
-  const [userData, setUserData] = useState(initUserData);
+  const [userData, setUserData] = useState(UserData);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -121,7 +118,8 @@ function Profile() {
 
 export default function Account() {
   const [file, setFile] = useState('');
-  const picture = '';
+  let picture = '';
+
   useEffect(() => {
     const getImage = async () => {
             if (file) {
@@ -135,18 +133,21 @@ export default function Account() {
     }
     getImage();
 }, [file])
+
   return (
-    <div>
-      <div  >
+    <Container>
+      <ImageWrapper >
+        <AccountCircleIcon/>
         <label htmlFor='fileinput'>
-          <InsertPhotoIcon />
+          <EditIcon />
         </label>
         <input type='file'
           id='fileinput'
           style={{ display: "none" }}
           onChange={(e) => setFile(e.target.files[0])}
         />
-      </div>
-    </div>
+      </ImageWrapper>
+
+    </Container>
   )
 }

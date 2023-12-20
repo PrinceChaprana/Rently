@@ -9,6 +9,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Alert from '@mui/material/Alert';
 import { LocationDefault } from '../../constant/variable';
 
 const Container = styled(Box)`
@@ -25,13 +26,15 @@ const Container = styled(Box)`
     position: relative;
     float:right;
   }
+  :hover{
+    box-shadow: 0 4px 8px 0 rgba(250, 250, 4, 0.2), 0 6px 20px 0 rgba(250, 250, 4, 0.2);
+  }
 `
 const ImageWrapper = styled(Box)`
   height: 50%;
   width: 100%;
   display: flex;
-  justify-content: center;
-
+  justify-content: center;  
 `
 const Image = styled('img')({
   objectFit: 'scale-down',
@@ -105,7 +108,13 @@ export default function Product({ product }) {
       return days.toString() + ' days';
     };
 
-
+  const WishlistProduct = async(id)=>{
+      let response = await API.wishlist({email:account.email,id:id});
+      if(response.isSuccess)
+        alert('added to wishlist')
+      else
+        alert('failed to add');
+  }
 
   const deletePost = async () => {
     console.log(product._id);
@@ -137,7 +146,6 @@ export default function Product({ product }) {
     let latitude1 = account.latitude || LocationDefault.latitude;
     let longitude1 = account.longitude || LocationDefault.longitude;
     const dist = getDistanceFromLatLonInKm(latitude, longitude, latitude1, longitude1);
-    console.log(product);
     return dist.toString() + ' KM away';
   }
   return (
@@ -145,15 +153,18 @@ export default function Product({ product }) {
       <IconWrapper>
         <IconContainer>
           {/*all the like and adding buttons*/}
-          <FavoriteBorderIcon onClick={() => deletePost()} />
+          <FavoriteBorderIcon onClick={() => WishlistProduct(product._id)} />
         </IconContainer>
       </IconWrapper>
       <ImageWrapper>
-        <Image src={product.picture} />
+        <Image onClick={()=>navigate(`/detail/${product._id}`)}  src={product.picture} />
       </ImageWrapper>
       <div style={{ margin: '5%' }}>
-        <UserName><AccountCircleIcon /><div onClick={() => { navigate(`/profile/${product.username}`) }}>{product.username}</div></UserName>
-        <Heading >{product.name}</Heading>
+        <UserName to={`/profile/${product.username}` }>
+          <AccountCircleIcon />
+          <div >{product.username}</div>
+        </UserName>
+        <Heading onClick={()=>navigate(`/detail/${product._id}`)} >{product.name}</Heading>
         <Typography1 style={{ fontSize: '1.5rem', fontWeight: 'bold' }} >₹{product.price}</Typography1>
         <Typography1 >{product.category}</Typography1>
         <div style={{ display: 'flex', flexDirection: 'row', color: '#646464', marginBottom: '1vh' }}>

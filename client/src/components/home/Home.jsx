@@ -30,14 +30,14 @@ export default function Home({ isAuthenticated }) {
       const response = await API.getAllProducts({city:account.city||location.city});
       if (response.isSuccess) {
         setNearbyProducts(response.data);
-        console.log(response.data);
+        //console.log(response.data);
       }
     }
     const getCityProducts = async () => {
       const response = await API.getAllProducts({ city: account.city || location.city });
       if (response.isSuccess) {
         setCityProdcuts(response.data);
-        console.log(response.data);
+        //console.log(response.data);
       }
     }
       getNearbyProducts();
@@ -53,7 +53,7 @@ export default function Home({ isAuthenticated }) {
         <label>Products From {account.city||location.city}</label>
       <SwiperProduct products={cityProduct} />
       </Container>
-        
+      
     </div>
   )
 }

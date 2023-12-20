@@ -12,6 +12,7 @@ import Account from './components/account/Account';
 import SearchPage from './components/searchpage/SearchPage';
 import SellerPage from './components/sellerpage/SellerPage';
 import Create from './components/sellerpage/create/Create';
+import Detail from './components/products/detailView/Detail';
 
 const PrivateRoute = ({ isAuthenticated, ...props }) => {
   const token = sessionStorage.getItem('accessToken');
@@ -32,9 +33,8 @@ function App() {
         <Routes>
           <Route path='/login' element={<Login isUserAuthenticated={isUserAuthenticated} />} />
           <Route path='/' element={<Home isAuthenticated={isAuthenticated} />} />
-          <Route path='/profile/:username' element={<PrivateRoute isAuthenticated={isAuthenticated} />} >
+          
             <Route path='/profile/:username' element={<Profile />} />
-          </Route>
           
           <Route path='/account' element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
             <Route path='/account' element={<Account />} />
@@ -44,6 +44,7 @@ function App() {
           </Route>
 
           <Route path='/search/:keyword' element={<SearchPage />} />
+          <Route path = 'detail/:id' element={<Detail/>} />
 
           <Route path='/create' element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
             <Route path='/create' element={<Create />} />
