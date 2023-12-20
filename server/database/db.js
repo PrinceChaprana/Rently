@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
-const Connection = async (username, password) => {
-    const URL = `mongodb+srv://mern-book-store:${password}@cluster0.8wybao7.mongodb.net/?`;
+const Connection = async (URL) => {
     try {
         await mongoose.connect(URL, { useNewUrlParser: true })
         console.log('Database connected successfully');
