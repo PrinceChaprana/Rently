@@ -5,7 +5,7 @@ import { GridFsStorage } from 'multer-gridfs-storage';
 dotenv.config();
 
 const storage = new GridFsStorage({
-    url: `mongodb+srv://mern-book-store:${process.env.DB_PASSWORD}@cluster0.8wybao7.mongodb.net/?`,
+    url: process.env.MONGODB_URI || `mongodb+srv://mern-book-store:${process.env.DB_PASSWORD}@cluster0.8wybao7.mongodb.net/?`,
     options: { useNewUrlParser: true },
     file: (request, file) => {
         const match = ["image/png","image/jpeg", "image/jpg"];
