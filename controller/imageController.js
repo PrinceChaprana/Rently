@@ -4,7 +4,7 @@ import mongoose from 'mongoose'
 //const url = 'http://localhost:8000'
 
 //production
-const url = ''
+const url = 'https://rentingapp-f731e611bb2b.herokuapp.com'
 
 let gfs, gridfsBucket;
 const conn = mongoose.connection;
