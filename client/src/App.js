@@ -13,6 +13,7 @@ import SearchPage from './components/searchpage/SearchPage';
 import SellerPage from './components/sellerpage/SellerPage';
 import Create from './components/sellerpage/create/Create';
 import Detail from './components/products/detailView/Detail';
+import Wishlist from './pages/Wishlist';
 
 const PrivateRoute = ({ isAuthenticated, ...props }) => {
   const token = sessionStorage.getItem('accessToken');
@@ -41,6 +42,10 @@ function App() {
           </Route>
           <Route path='/sell' element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
             <Route path='/sell' element={<SellerPage />} />
+          </Route>
+          
+          <Route path='/wishlist' element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
+            <Route path='/wishlist' element={<Wishlist />} />
           </Route>
 
           <Route path='/search/:keyword' element={<SearchPage />} />

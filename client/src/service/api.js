@@ -6,7 +6,7 @@ import { getAccessToken, getRefreshToken, setAccessToken, getType } from '../uti
 //local diploy
 //const API_URL = 'http://localhost:8000';
 //production
-const API_URL = 'https://rentingapp-f731e611bb2b.herokuapp.com';
+const API_URL = process.env.NODE_ENV==='production'? 'https://rentingapp-f731e611bb2b.herokuapp.com':'http://localhost:8000';
 
 const axiosInstance = axios.create({
     baseURL: API_URL,

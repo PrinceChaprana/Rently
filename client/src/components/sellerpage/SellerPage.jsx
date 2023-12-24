@@ -11,7 +11,22 @@ const Item = styled(Box)`
 `
 const Container = styled(Grid)`
   position: relative;
-  margin: 1%;
+  margin: 1vh 1vw;
+  height: 88vh;
+  overflow: scroll;
+`
+const AddButton = styled(Link)`
+  margin: 15% 0 0 15%;
+  font-weight: bold;
+  border-radius: 5rem;
+  background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+  @media screen and (max-width:426px){
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    margin-bottom: 10px;
+  }
 `
 
 export default function SellerPage() {
@@ -34,12 +49,12 @@ export default function SellerPage() {
   return (
     <>
       <Grid container>
-        <Grid item lg={2} xs={12} sm={2} style={{display:'flex',flexDirection:'column'}}>
-            <Link to='/create' style={{textDecoration:'none',color:'black',margin:'15%',width:'80%',textAlign:'center',background:'blue',borderRadius:'1rem',padding:'1vh 0'}}>Add Product</Link>
+        <Grid item lg={2} xs={12} sm={2} style={{display:'flex',background:"transparent",flexDirection:'column'}}>
+            <AddButton to='/create' style={{textDecoration:'none',width:'80%',textAlign:'center',padding:'1vh 0'}}>Add Product</AddButton>
         </Grid>
         <Grid item xs={12} sm={10} lg={10} style={{height:'100vh'}}>
             <Container>
-              <div style={{width:'100%',textAlign:'center',fontSize:'2rem',color:'#511a1b',fontWeight:'bold'}}>MY PRODUCTS</div>
+              <div style={{width:'100%',textAlign:'center',fontSize:'2rem',color:'#551a8b',fontWeight:'bold',borderBottom:"1px solid #c7c7c7",marginBottom:"1vh" }}>MY PRODUCTS</div>
               <Products products={products}/>
             </Container>
         </Grid>

@@ -71,24 +71,3 @@ export const logoutUser = async (request, response) => {
 
     response.status(204).json({ msg: 'logout successfull' });
 }
-
-export const addtoWishlist = async (request, response) => {
-    let email = request.query.email;
-    let productId = request.query.id;
-    try {
-        let user = await User.find({email:email});
-
-        if (!user) {
-            response.status(404).json({ msg: 'User Not Found' })
-        }
-        const wishlist = user.wishlist || [];
-        wishlist.push(productId);
-        await User.findOneAndUpdate({email:email},{$set:{wishlist:wishlist}});
-
-        //await Post.findByIdAndUpdate(request.params.id, { $set: request.body })
-
-        response.status(200).json('product Added to Wishlist');
-    } catch (error) {
-        response.status(500).json(error);
-    }
-}

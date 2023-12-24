@@ -15,7 +15,7 @@ const Container = styled(Box)`
         margin: 1% 0;
         padding:1vh 3vw;
         border-radius: 5rem;
-
+        background: transparent;        
 `
 const SearchButton = styled(Box)`
         color: #fff;

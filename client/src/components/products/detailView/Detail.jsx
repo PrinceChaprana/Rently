@@ -3,12 +3,15 @@ import { useParams,useNavigate } from 'react-router-dom'
 import { ProductData } from '../../../constant/variable';
 import { API } from '../../../service/api';
 
-import { Box, styled ,Typography } from '@mui/material'
+import { Box, styled ,Typography,Button } from '@mui/material'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 const Container = styled(Box)`
-        margin: 2vh 10vw;
-        width: 80vw;
+        padding: 2vh 10vw 0 10vw;
+        width: 100vw;
+        overflow: scroll;
+        height: 80vh;
         &>div{
                 display: flex;
         }
@@ -22,7 +25,6 @@ const Container = styled(Box)`
 const ImageWrapper = styled(Box)`
         width:50%;
         height: 50%;
-
         &>img{
                 width: 100%;
                 height: 50vh;
@@ -39,7 +41,7 @@ const Information = styled(Box)`
         margin:0 2vh;
         &>div{
                 margin-bottom: 2vh;
-                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                //box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
                 padding: 0 1px;
         }
         @media screen and (max-width:426px){
@@ -53,15 +55,19 @@ const Information = styled(Box)`
 `
 const BasicInfo = styled(Box)`
         width: 100%;
+        text-transform: capitalize;
 
 `
 const UserInfo = styled(Box)`
         display: flex;
-        height: 10vh;
+        height: 12%;
         align-items: center;
+        background: #eeeeee;
+        border-radius: 1rem;
+        padding:0 1vw ;
         &>div{
                 width: 60%;
-                font-size:2vw;
+                font-size:2vh;
                 text-transform: uppercase;
                 font-weight:bold;
         }
@@ -73,7 +79,7 @@ const UserInfo = styled(Box)`
 `
 
 const Title = styled(Box)`
-        font-size: 2vw;
+        font-size: 5vh;
         font-weight: bold;
         color:#310955;
         @media screen and (max-width:426px){
@@ -91,6 +97,54 @@ const Price = styled(Box)`
 
 const AddressInfo = styled(Box)`
         text-transform: capitalize;
+        display: flex;
+`
+const ButtonWrapper = styled(Box)`
+        display:flex;
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+        color:white;
+        font-weight: bold;
+        font-size: 1.1rem;
+        &>div{
+                border-radius: 5rem;
+                padding: 1vh;
+                margin: 1vh 0;
+                height:5vh;
+        }
+        /* @media screen and (max-width:426px){
+                position: fixed;
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                left: 0;
+                top:93vh;
+                height: 8vh;
+                border-radius: 1rem 1rem 0 0;
+                overflow: hidden;
+                vertical-align: middle;
+                &>div{
+                        padding: 2vh 0;
+                        width: 50%;
+                }
+        } */
+`
+const OfferButton = styled(Box)`
+        background: #ff8080;
+`
+const WishlistButton = styled(Box)`
+        background: #ff80c0;
+`
+
+const Description = styled(Box)`
+        border-radius: .5rem;
+        overflow: hidden;
+
+        &>h2{
+                border-bottom: 1px solid black;
+                background: #f4f4f4;
+        }
 `
 
 
@@ -121,12 +175,18 @@ export default function Detail() {
                                                 <AccountCircleIcon/>
                                                 <div >{product.username}</div>
                                         </UserInfo>
+                                        <ButtonWrapper>
+                                                <WishlistButton >Add to Wishlist</WishlistButton>
+                                                <OfferButton >Make Offer</OfferButton>
+                                        </ButtonWrapper>
                                         <AddressInfo>
+                                                <LocationOnIcon/>
                                                 <div>{product.city}, {product.state}, {product.country}</div>
                                         </AddressInfo>
-                                        <div>
-                                                {product.discription}
-                                        </div>
+                                        <Description>
+                                                <h2>Description</h2>
+                                                <p>{product.discription}</p>
+                                        </Description>
                                 </Information>
                         </div>
                         {/*this is where review and other data comes*/}

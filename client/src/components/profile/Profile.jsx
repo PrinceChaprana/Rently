@@ -10,10 +10,13 @@ import Products from '../products/Products'
 const Container = styled(Box)`
   display: flex;
   flex-direction: row;
-  margin:1vh 10vw;
-  width: 80vw;
-  padding:1% 1%;
-  background:#c3c3c3;
+  padding:1vh 10vw;
+  overflow: scroll;
+  height:90vh;
+  width: 100vw;
+  @media screen and (max-width:426px){
+    flex-direction: column;
+  }
 `
 const Wrapper = styled(Box)`
 width:60%;
@@ -42,6 +45,12 @@ text-align: right;
 
 const AccountDetailDiv = styled(Box)`
   width:20vw;
+  @media screen and (max-width:426px){
+    display: flex;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+  }
 `
 const ProductsDetailDiv = styled(Box)`
   width:60vw;
@@ -49,6 +58,9 @@ const ProductsDetailDiv = styled(Box)`
     font-size:2rem;
     font-weight:bold;
     text-align: center;
+  }
+  @media screen and (max-width:426px){
+    width: 100%;
   }
 `
 
@@ -63,14 +75,18 @@ const Address = styled(Box)`
   text-transform: capitalize;
 `
 const Image = styled(Box)`
-  width:90%;
-  height:40%;
+  width:20vh;
+  height: 20vh;
+  overflow: hidden;
+  object-fit: cover;
   &>img{
     width: 100%;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     height: 100%;
-    object-fit: fill;
     border-radius: 1rem;
+  }
+
+  @media screen and (max-width:426px){
+    border-radius: 5rem 5rem;
   }
 `
 
@@ -106,17 +122,19 @@ export default function Profile() {
               userData.picture !== '' ?
                 <img src={userData.picture} />
                 :
-                <AccountCircleIcon style={{ fontSize: '30vh' }} />
+                <AccountCircleIcon style={{ fontSize: '20vh' }} />
             }
           </Image>
-          <Name>{userData.name}</Name>
-          <Address>
-            <div>{userData.addressline}</div>
-            <div>{userData.city},{userData.state}</div>
-          </Address>
+          <div style={{margin:"0 1vh"}}>
+            <Name>{userData.name}</Name>
+            <Address>
+              <div>{userData.addressline}</div>
+              <div>{userData.city},{userData.state}</div>
+            </Address>
+          </div>
         </AccountDetailDiv>
         <ProductsDetailDiv>
-          <Typography>Products For Sell</Typography>
+          <Typography style={{borderBottom:"1px solid black",marginBottom:"1vh"}}>Products For Sell</Typography>
           <Products products={products} />
         </ProductsDetailDiv>
 

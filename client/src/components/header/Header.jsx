@@ -17,49 +17,35 @@ const Container = styled(Box)`
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background: #000;
+        background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
         height: 10vh;
         color: white;
-        width: 100vw;
-        
+        width: 100vw;    
 `
 const Logo = styled(Link)`
         text-decoration: none;
         font-family: 'Whisper', cursive;
         display: flex;
-        width: 10vw;
-        padding: 0 3vw;
+        width: 25vw;
+        padding: 0 2vw;
         float: left;
         color: #fff;
         font-size:4vh;
-        background: #000;
 `
 const SearchbarWrapper = styled(Box)`
-        width:50vw;
+        width:60vw;
         height: 100%;
-        @media screen and (max-width:426px) {
-                display: none;
-        }
 `
-const SearchbarWrapper2 = styled(Box)`
-        display: none;
-        @media screen and (max-width:426px) {
-                display: block;
-                width: 100%;
-                padding: 0 5vw;
-                justify-content: center;
-                height: 100%;
-        }
-`
+
 const UserIcon = styled(AccountCircleIcon)`
         font-size: 3rem;
+        width: 15vw;
 `
 const UsernameWrapper = styled(Button)`
         display: flex;
         flex-direction: column;
         position: relative;
         float: right;
-        margin-right: 3vw;
         color:white;
         width: 100%;
         &>div{
@@ -72,7 +58,7 @@ const UsernameWrapper = styled(Button)`
 `
 
 
-export default function Header({ isAuthenticated ,isUserAuthenticated}) {
+export default function Header({ isAuthenticated, isUserAuthenticated }) {
 
         const { account } = useContext(DataContext);
         //drop down menu of user icon
@@ -87,7 +73,7 @@ export default function Header({ isAuthenticated ,isUserAuthenticated}) {
         const logout = () => {
                 isUserAuthenticated(false);
                 account(UserData);
-        
+
                 sessionStorage.removeItem('refreshToken');
                 sessionStorage.removeItem('accessToken');
                 handleClose();
@@ -102,7 +88,7 @@ export default function Header({ isAuthenticated ,isUserAuthenticated}) {
                                 <SearchbarWrapper ><SearchBar /></SearchbarWrapper>
                                 {
                                         isAuthenticated ?
-                                                <div style={{ width: '10vw' }}>
+                                                <div >
                                                         <UsernameWrapper
                                                                 id="basic-button"
                                                                 aria-controls={open ? 'basic-menu' : undefined}
@@ -122,18 +108,18 @@ export default function Header({ isAuthenticated ,isUserAuthenticated}) {
                                                                         'aria-labelledby': 'basic-button',
                                                                 }}
                                                         >
-                                                                <MenuItem onClick={handleClose}><Link to={`/profile/${account.email}`} style={{textDecoration:'none'}}>Profile</Link></MenuItem>
-                                                                <MenuItem onClick={handleClose}><Link to='/account' style={{textDecoration:'none'}}>My account</Link></MenuItem>
-                                                                <MenuItem onClick={handleClose}><Link to='/sell' style={{textDecoration:'none'}}>Sell</Link></MenuItem>
-                                                                
+                                                                <MenuItem onClick={handleClose}><Link to={`/profile/${account.email}`} style={{ textDecoration: 'none' }}>Profile</Link></MenuItem>
+                                                                <MenuItem onClick={handleClose}><Link to='/account' style={{ textDecoration: 'none' }}>My account</Link></MenuItem>
+                                                                <MenuItem onClick={handleClose}><Link to='/sell' style={{ textDecoration: 'none' }}>Sell</Link></MenuItem>
+                                                                <MenuItem onClick={handleClose}><Link to='/wishlist' style={{ textDecoration: 'none' }}>Wishlist</Link></MenuItem>
+
                                                                 <MenuItem onClick={logout}>Logout</MenuItem>
                                                         </Menu>
                                                 </div>
                                                 :
-                                                <Link to={'/login'} style={{ textDecoration: 'none',width:'10vw',fontSize:'3vh', color: 'white' }}>Login / Sign Up</Link>
+                                                <Link to={'/login'} style={{ textDecoration: 'none', width: '10vw', fontSize: '3vh', color: 'white' }}>Login / Sign Up</Link>
                                 }
                         </Container>
-                        <SearchbarWrapper2><SearchBar /></SearchbarWrapper2>
                 </>
         )
 }

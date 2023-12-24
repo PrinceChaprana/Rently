@@ -145,7 +145,7 @@ export default function Login({isUserAuthenticated}) {
       {
         state === 'login' ?
           <Wrapper>
-            <HalfWrapper style={{ background: 'yellow' }}>
+            <HalfWrapper className='poster' style={{ background: 'yellow' }}>
               <Heading>
                 Welcome back
               </Heading>
@@ -252,7 +252,7 @@ export default function Login({isUserAuthenticated}) {
                 <Button onClick={() => toggleState()} >Login</Button>
               </FormWrapper>
             </HalfWrapper>
-            <HalfWrapper style={{ background: 'magenta' }}>
+            <HalfWrapper className='poster' style={{ background: 'magenta' }}>
               <Heading>
                 Hello There!
               </Heading>

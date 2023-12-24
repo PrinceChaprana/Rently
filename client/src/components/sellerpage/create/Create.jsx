@@ -6,33 +6,31 @@ import { API } from '../../../service/api';
 import { DataContext } from '../../../context/DataProvider';
 import { ProductData } from '../../../constant/variable';
 
+import CircularProgress from '@mui/material/CircularProgress';
+
 const Container = styled(Box)`
-        width: 50vw;
-        max-height: 85vh;
-        height: fit-content;
+        width: 100vw;
+        padding: 1vh 25vw;
         overflow-y: scroll;
         background:#fff;
         border-radius: 1rem;
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding:1%;
         &>div,&>button{
                 margin: 1vh 1vw;
                 width: 80%;
         }
-        &>div>label{
-                width: 100%;
-                justify-content:center;
-        }
-        &>label>svg{
+        &>label{
+                width: 80%;
+                justify-content: center;
                 align-items: center;
-                font-size: 12rem;
         }
+        
 `
 const Image = styled('img')({
-        width: '80%',
-        height: '40%',
+        width: '100%',
+        height: '100%',
         objectFit: 'contain'
 
 });
@@ -41,19 +39,28 @@ const StyledButton = styled(Button)`
         width: 50%;
         height:5vh;
         background: #00a7e6;
-        color: white
+        color: white;
 `;
 
+const ImageWrapper = styled(Box)`
+        background: #eaeaea;
+        height: 40vh;
+        &>svg{
+                width: 100%;
+                height: 100%;
+                font-size: 100%;
+        }
+`
 
 export default function Create() {
         let productInit = ProductData;
-        const [file, setFile] = useState('');
+        let [file, setFile] = useState('');
+        let [loading, setloading] = useState(false);
         let [product, setProduct] = useState(productInit);
+        const [url, setUrl] = useState('');
 
         const { account } = useContext(DataContext);
         const navigate = useNavigate();
-
-        let url = product.picture ? product.picture : '';
 
         useEffect(() => {
                 const getImage = async () => {
@@ -69,6 +76,8 @@ export default function Create() {
                         }
                 }
                 getImage();
+                setUrl(product.picture);
+                console.log(url);
                 product.username = account.email;
                 product.addressline = account.addressline;
                 product.city = account.city;
@@ -78,6 +87,10 @@ export default function Create() {
                 product.longitude = account.longitude;
                 product.latitude = account.latitude;
         }, [file])
+
+        useEffect(() => {
+                setUrl('');
+        }, []);
 
         const handleChange = (e) => {
                 setProduct({ ...product, [e.target.name]: e.target.value });
@@ -89,15 +102,20 @@ export default function Create() {
         }
 
         return (
-                <div style={{ height: '100vh', background: '#d4d4d4', padding: '5vh 25vw' }}>
+                <div >
                         <Container>
                                 <label htmlFor="fileinput">
-                                        {
-                                                url === '' ?
-                                                        <InsertPhotoIcon />
-                                                        : <Image src={url} />
+                                        <ImageWrapper>
+                                                {
+                                                        url === '' ?
+                                                                <InsertPhotoIcon />
+                                                                :
+                                                                <Image src={url} onLoadStart={setloading(true)} onLoad={() => setloading(false)} />
 
-                                        }
+
+
+                                                }
+                                        </ImageWrapper>
                                 </label>
                                 <input type='file'
                                         id='fileinput'

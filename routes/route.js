@@ -1,9 +1,10 @@
 import express from 'express';
-import {loginUser,signupUser,getUserData,addtoWishlist} from '../controller/userController.js';
+import {loginUser,signupUser,getUserData} from '../controller/userController.js';
 import {uploadImage,getImage} from '../controller/imageController.js';
 
 import { createPost, deletePost, getPost, getAllPosts,searchProductbyKeyword } from '../controller/postController.js';
 import { authenticateToken, createNewToken } from '../controller/jwtController.js';
+import { AddToWishlist } from '../controller/wishlistController.js';
 
 //middleware
 import upload from '../utils/upload.js';
@@ -21,7 +22,7 @@ router.get('/file/:filename', getImage);
 router.get('/product', authenticateToken, getPost);
 router.get('/products',  getAllPosts);
 router.delete('/delete/:id', authenticateToken, deletePost);
-router.put('/wishlist',authenticateToken, addtoWishlist);
+router.put('/wishlist',authenticateToken, AddToWishlist);
 
 router.get('/search',searchProductbyKeyword)
 

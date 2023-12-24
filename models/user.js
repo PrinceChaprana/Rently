@@ -42,9 +42,6 @@ const userSchema = mongoose.Schema({
     },
     picture:{
         type:String
-    },
-    wishlist:{
-        type:Array
     }
 });
 userSchema.index({location:'2dsphere'});
