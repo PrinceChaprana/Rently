@@ -37,4 +37,7 @@ body {
         .poster{
                 display: none;
         }
+        .input-field{
+                width: 90vh;
+        }
 }

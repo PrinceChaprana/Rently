@@ -36,5 +36,8 @@ export const SERVICE_URLS = {
         getProduct:{url:'/product', method: 'GET', params: true},
         searchProduct:{url:'/search',method: 'GET',params:true},
         wishlist:{url:'/wishlist',method:'PUT',params:true},
-        getWishlist:{url:'/wishlist',method:'GET',params:true}
+        getWishlist:{url:'/wishlist',method:'GET',params:true},
+        createConversation:{url:'/conversation',method: 'POST',params:true},
+        sendMessage:{url:'/message/add',method: 'POST'},
+        getMessage:{url:'/message/get',method: 'GET',params:true},
 }

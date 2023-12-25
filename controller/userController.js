@@ -46,7 +46,7 @@ export const loginUser = async (request, response) => {
             const newToken = new Token({ token: refreshToken });
             await newToken.save();
 
-            console.log(user.email)
+            //console.log(user.email)
             response.status(200).json({ accessToken: accessToken, refreshToken: refreshToken, userData : user });
 
         } else {

@@ -152,7 +152,7 @@ const Description = styled(Box)`
 export default function Detail() {
         const { id } = useParams();
         const navigate = useNavigate();
-        const {account} = useContext(DataContext);
+        const {account,setSelectedProduct} = useContext(DataContext);
         const [product, setProduct] = useState([]);
 
         const WishlistProduct = async(id)=>{
@@ -161,6 +161,11 @@ export default function Detail() {
                   alert('added to wishlist')
                 else
                   alert('failed to add');
+        }
+
+        const MakeOffer = () => {
+                setSelectedProduct(product);
+                navigate(`/chat/${product.username}`);
         }
 
         useEffect(() => {
@@ -187,7 +192,7 @@ export default function Detail() {
                                         </UserInfo>
                                         <ButtonWrapper>
                                                 <WishlistButton onClick={()=>WishlistProduct()} >Add to Wishlist</WishlistButton>
-                                                <OfferButton >Make Offer</OfferButton>
+                                                <OfferButton onClick={()=>MakeOffer()}>Make Offer</OfferButton>
                                         </ButtonWrapper>
                                         <AddressInfo>
                                                 <LocationOnIcon/>

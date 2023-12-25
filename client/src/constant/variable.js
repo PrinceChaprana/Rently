@@ -29,6 +29,15 @@ export const ProductData = {
         username: ''
 }
 
+export const MessageData = {
+        conversationId:'',
+        sender:'',
+        receiver:'',
+        messageType:'',
+        message:''
+}
+
+
 export const LocationDefault = {
         longitude: 77.280,
         latitude: 28.390,

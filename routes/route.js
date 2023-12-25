@@ -5,7 +5,8 @@ import {uploadImage,getImage} from '../controller/imageController.js';
 import { createPost, deletePost, getPost, getAllPosts,searchProductbyKeyword } from '../controller/postController.js';
 import { authenticateToken, createNewToken } from '../controller/jwtController.js';
 import { AddToWishlist,GetWishlist } from '../controller/wishlistController.js';
-
+import {createConversation} from '../controller/conversationController.js';
+import {addMessage ,getMessage } from '../controller/messageController.js';
 //middleware
 import upload from '../utils/upload.js';
 
@@ -29,5 +30,10 @@ router.get('/wishlist',authenticateToken, GetWishlist);
 router.get('/search',searchProductbyKeyword)
 
 router.post('/create',authenticateToken, createPost);
+
+//chating routes
+router.post('/conversation',authenticateToken, createConversation);
+router.post('/message/add',authenticateToken, addMessage);
+router.get('/message/get',authenticateToken,getMessage);
 
 export default router;

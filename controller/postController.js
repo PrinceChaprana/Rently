@@ -12,9 +12,7 @@ export const createPost = async (request, response) => {
             city: request.body.city, state: request.body.state, country: request.body.country,
             pincode: request.body.pincode, location: { type: "Point", coordinates: [request.body.longitude, request.body.latitude] }
         };
-        console.log('postData'+postData);
         const post = await new Post(postData);
-        console.log('saved post' + post)
         post.save();
 
         response.status(200).json('Post saved successfully');
@@ -38,7 +36,7 @@ export const getPost = async (request, response) => {
     let id = request.query.id;
     try {
         const post = await Post.findById(request.query.id);
-        console.log(id);
+        //console.log(id);
         response.status(200).json(post);
     } catch (error) {
         response.status(500).json(error)
@@ -60,7 +58,7 @@ export const getAllPosts = async (request, response) => {
             posts = await Post.find({ city: city });
         else if (id)
             posts = await Post.findById(id);
-        console.log(id)
+        //console.log(id)
 
         response.status(200).json(posts);
     } catch (error) {
@@ -95,7 +93,7 @@ export const searchProductbyKeyword = async (request, response) => {
                     }
                 ]
             })
-        console.log(posts);
+        //console.log(posts);
         response.status(200).json(posts);
     } catch (error) {
         response.status(500).json(error);

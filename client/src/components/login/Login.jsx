@@ -21,6 +21,9 @@ const HalfWrapper = styled(Box)`
     width: 50vw;
     height: 100vh;
     text-align: center;
+    @media screen and (max-width:426px){
+      width: 100vw;
+    }
 `
 
 const Heading = styled(Box)`
@@ -40,6 +43,14 @@ const Logo = styled(Box)`
         color: #000;
         font-size:16vh;
         margin-left:10vw;
+        @media screen and (max-width:426px){
+          display: flex;
+          width: 80%;
+          font-size: 10vh;
+          height: 10vh;
+          align-items: center;
+          justify-content: center;
+        }
 `
 
 const FormWrapper = styled(Box)`
@@ -51,8 +62,8 @@ const FormWrapper = styled(Box)`
   & > div{
     margin: 1% 1%;
     width: 80%;
-    
   }
+  
 `
 
 const initialLogin = {
@@ -157,6 +168,7 @@ export default function Login({isUserAuthenticated}) {
               <Logo style={{margin: '20vh 10vw 1vh 10vw'}}>RentApp</Logo>
               <FormWrapper>
                 <TextField
+                  className='input-field'
                   required
                   id="outlined-required"
                   name='username'
