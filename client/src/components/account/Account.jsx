@@ -1,153 +1,98 @@
-import { useState, useContext, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { Button, Box, styled, Typography, TextField } from '@mui/material';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import EditIcon from '@mui/icons-material/Edit';
-import { API } from '../../service/api';
-import { DataContext } from '../../context/DataProvider';
+import React, { useContext, useState } from 'react'
+import { Box,styled,TextField,Button} from '@mui/material'
 
-import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { DataContext } from '../../context/DataProvider';
 import { UserData } from '../../constant/variable';
 
-
 const Container = styled(Box)`
-  margin:1vh 20%;
-  width: 60vw;
-  padding:1% 1%;
-  background:#c3c3c3;
-  display: flex;
-  flex-direction: column;
-  align-items:center;
-  overflow-y: scroll;
-  scroll-behavior:smooth;
-  height:85vh;
+  align-items: center;
+  padding:1vh 10vw;
+  border: 2px solid red;
+  overflow: scroll;
+  width: 100%;
+  height: 90vh;
+  justify-content: center;
 `
-const Wrapper = styled(Box)`
-width:60%;
-margin: 0 40%;
-  
+const Image = styled(Box)`
+  height: 30vh;
+  width: 30vh;
+  margin: auto;
+  border: 1px solid red;
+  border-radius: 10rem 10rem;
+  overflow: hidden;
+  margin-bottom:1vh;
+  &>img{
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+  }
 `
 const Value = styled(Box)`
-display: flex;
-justify-content: space-evenly;
-padding:1% 1%;
-width: 100%;
-text-align: right;
-&>label{
-  font-size: medium;
-  font-weight: bold;
-  text-transform: capitalize;
-  width:30%;
-  height: 100%;
-  padding-right:5%;
-
-}
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  border-top: 1px solid black;
+  padding: 1vh 0;
   &>div{
-    width:70%;
-  }
-
-`
-//new file 
-
-const ImageWrapper = styled(Box)`
-  width:40vw;
-  height:50vh;
-  &>div>div{
-    font-size: 100%;
+    color:black;
   }
 `
-
-function Profile() {
-  const { username } = useParams();
-  const [userData, setUserData] = useState(UserData);
-
-  useEffect(() => {
-    const getUserData = async () => {
-      let response = await API.getUserData(username);
-      setUserData(response.data);
-    }
-    getUserData()
-  }, [])
-  const uploadPhoto = async () => {
-
-  }
-  return (
-    <>
-      <Container>
-        <div>
-          <AccountCircleIcon style={{ fontSize: '30vh' }} />
-          <EditIcon onClick={uploadPhoto} style={{ borderRadius: '1rem', fontSize: '32px', padding: '5px', color: 'white', background: '#342412' }} />
-        </div>
-        <Wrapper>
-          <Value>
-            <label>Name</label>
-            <TextField value={userData.name} />
-          </Value>
-          <Value>
-            <label>email/username</label>
-            <TextField value={userData.email} />
-          </Value>
-          <Value>
-            <label>Address</label>
-            <TextField value={userData.addressline} />
-          </Value>
-          <Value>
-            <label>City</label>
-            <TextField value={userData.city} />
-          </Value>
-          <Value>
-            <label>Pin Code</label>
-            <TextField value={userData.pincode} />
-          </Value>
-          <Value>
-            <label>State</label>
-            <TextField value={userData.state} />
-          </Value>
-          <Value>
-            <label>Country</label>
-            <TextField value={userData.country} />
-          </Value>
-          <Button>Update</Button>
-          sdfsfds
-        </Wrapper>
-        sdfsf
-      </Container>
-    </>
-  )
-}
+const UpdateButton = styled(Button)`
+  width: 100%;
+  
+background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);height: 50px;
+  text-align: center;
+  border-radius: 5rem;
+  display: flex;
+  flex-direction: column;
+  color: white; 
+`
 
 export default function Account() {
-  const [file, setFile] = useState('');
-  let picture = '';
-
-  useEffect(() => {
-    const getImage = async () => {
-            if (file) {
-                    const data = new FormData();
-                    data.append("name", file.name);
-                    data.append("file", file);
-
-                    const response = await API.uploadFile(data);
-                    picture = response.data;
-            }
-    }
-    getImage();
-}, [file])
+  
+  const {account} = useContext(DataContext);
+  const {userData,setUserData} = useState(UserData);
 
   return (
+    <>
     <Container>
-      <ImageWrapper >
-        <AccountCircleIcon/>
-        <label htmlFor='fileinput'>
-          <EditIcon />
-        </label>
-        <input type='file'
-          id='fileinput'
-          style={{ display: "none" }}
-          onChange={(e) => setFile(e.target.files[0])}
-        />
-      </ImageWrapper>
-
+            <Image>
+            {
+              account.picture !== '' ?
+                <img src={account.picture}/>
+                :
+                <AccountCircleIcon style={{ fontSize: '30vh' }} />
+            }
+          </Image>
+          <Value>
+            <h4>Name</h4>
+            <TextField placeholder={account.name}/> 
+          </Value>
+          <Value>
+            <h4>Address</h4>
+            <TextField placeholder={account.addressline}/> 
+          </Value>
+          <Value>
+            <h4>City</h4>
+            <TextField placeholder={account.city}/> 
+          </Value>
+          <Value>
+            <h4>State</h4>
+            <TextField placeholder={account.state}/> 
+          </Value>
+          <Value>
+            <h4>Country</h4>
+            <TextField placeholder={account.country}/> 
+          </Value>
+          <Value>
+            <h4>Pin Code</h4>
+            <TextField placeholder={account.pincode}/> 
+          </Value>
+          <UpdateButton>Update</UpdateButton>
     </Container>
+    </>
   )
 }

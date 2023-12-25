@@ -35,9 +35,10 @@ export const deletePost = async (request, response) => {
 }
 
 export const getPost = async (request, response) => {
+    let id = request.query.id;
     try {
-        const post = await Post.findById(request.params.id);
-
+        const post = await Post.findById(request.query.id);
+        console.log(id);
         response.status(200).json(post);
     } catch (error) {
         response.status(500).json(error)

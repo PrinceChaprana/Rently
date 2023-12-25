@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams,useNavigate } from 'react-router-dom'
 import { ProductData } from '../../../constant/variable';
 import { API } from '../../../service/api';
@@ -6,6 +6,7 @@ import { API } from '../../../service/api';
 import { Box, styled ,Typography,Button } from '@mui/material'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { DataContext } from '../../../context/DataProvider';
 
 const Container = styled(Box)`
         padding: 2vh 10vw 0 10vw;
@@ -151,7 +152,16 @@ const Description = styled(Box)`
 export default function Detail() {
         const { id } = useParams();
         const navigate = useNavigate();
+        const {account} = useContext(DataContext);
         const [product, setProduct] = useState([]);
+
+        const WishlistProduct = async(id)=>{
+                let response = await API.wishlist({email:account.email,id:id});
+                if(response.isSuccess)
+                  alert('added to wishlist')
+                else
+                  alert('failed to add');
+        }
 
         useEffect(() => {
                 const getProduct = async () => {
@@ -176,7 +186,7 @@ export default function Detail() {
                                                 <div >{product.username}</div>
                                         </UserInfo>
                                         <ButtonWrapper>
-                                                <WishlistButton >Add to Wishlist</WishlistButton>
+                                                <WishlistButton onClick={()=>WishlistProduct()} >Add to Wishlist</WishlistButton>
                                                 <OfferButton >Make Offer</OfferButton>
                                         </ButtonWrapper>
                                         <AddressInfo>

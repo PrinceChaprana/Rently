@@ -12,7 +12,7 @@ const Container = styled(Box)`
         justify-content: space-evenly;
         align-items: center;
         height: 70%;
-        margin: 1% 0;
+        margin: 1.2vh 0;
         padding:1vh 3vw;
         border-radius: 5rem;
         background: transparent;        
@@ -54,7 +54,7 @@ export default function SearchBar() {
         }
 
   return (
-    <div>
+    <div height="100%">
         <Container>
                 <InputSearchField type='search' onSearch={()=>SearchProduct()} onChange={(e)=>handleChange(e)} placeholder='Search the Product...'/>
                 <SearchButton>
