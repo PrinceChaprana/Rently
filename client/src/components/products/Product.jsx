@@ -93,7 +93,7 @@ export default function Product({ product }) {
   const { account } = useContext(DataContext);
   const location = useLocation();
 
-  const url = product.picture?product.picture:"";
+  let url = product.picture?product.picture:"";
 
     const CalculateDate = () => {
       let date = product.postDate;
@@ -109,6 +109,17 @@ export default function Product({ product }) {
       let days = Math.round(hour / 24);
       return days.toString() + ' days';
     };
+
+    useEffect(()=>{
+      //for moving localhost images to server of deployment
+      if(process.env.NODE_ENV==="production"){
+        if(url.includes("localhost")){
+          let urlparts = url.split("/");
+          url = "https://rentingapp-f731e611bb2b.herokuapp.com/"+urlparts[3]+"/"+urlparts[4];
+          console.log(url,urlparts);
+        }
+      }
+    },[url])
 
   const WishlistProduct = async(id)=>{
       let response = await API.wishlist({email:account.email,id:id});
