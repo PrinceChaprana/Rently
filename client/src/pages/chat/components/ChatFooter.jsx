@@ -7,8 +7,11 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 
 const Container = styled(Box)`
+
   height:8vh;
-  background: transparent;
+  position: absolute;
+  bottom: 0;
+  background: #eeaeca;
   display: flex;
   padding: 1vh;
 `

@@ -8,6 +8,7 @@ const Container = styled(Box)`
   padding: 1vh 1vh;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 `
 const Sent = styled(Box)`
   float: right;
