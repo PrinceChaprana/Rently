@@ -162,6 +162,17 @@ export default function Detail() {
                 else
                   alert('failed to add');
         }
+        useEffect(()=>{
+                //for moving localhost images to server of deployment
+                if(process.env.NODE_ENV==="production"){
+                let url = product.picture;
+                  if(url?.picture?.includes("localhost")){
+                    let urlparts = url.picture.split("/");
+                    product.picture = "https://rentingapp-f731e611bb2b.herokuapp.com/"+urlparts[3]+"/"+urlparts[4];
+                    //console.log(url,urlparts);
+                  }
+                }
+              },[])
 
         const MakeOffer = () => {
                 setSelectedProduct(product);
