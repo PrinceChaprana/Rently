@@ -13,18 +13,17 @@ const Container = styled(Box)`
   padding: 1vh;
 `
 const Offer = styled(Box)`
-  width:15%;
   background: white;
-  width: 6vh;
-  height: 6vh;
-  margin-right: 1vh;
+  width: 10vw;
+  height: 10vw;
+  margin: 1vw;
   border-radius: 5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #eeaeca;
   &>svg{
-    font-size: 4vh;
+    font-size: 8vw;
   }
 `
 const InputField = styled(Box)`
@@ -32,16 +31,16 @@ const InputField = styled(Box)`
   padding:0 1vh;
   border: 1px solid black;
   border-radius: 1rem;
-  width: 72%;
+  width: 72vw;
   height: 6vh;
   &>div{
     width: 100%;
   }
 `
 const SendButton = styled(Box)`
-  width: 6vh;
-  height: 6vh;
-  margin-left: 1vh;
+  width: 10vw !important;
+  height: 10vw !important;
+  margin: 1vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -49,7 +48,7 @@ const SendButton = styled(Box)`
   color: #eeaeca;
   border-radius: 5rem 5rem;
   &>svg{
-    font-size: 4vh;
+    font-size: 8vw;
   }
 `
 

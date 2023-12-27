@@ -32,9 +32,10 @@ export const signupUser = async (request, response) => {
 
 
 export const loginUser = async (request, response) => {
-    let user = await User.findOne({ email: request.body.username });
+    let user = await User.findOne({ email: request.body.email });
     if (!user) {
-        return response.status(400).json({ msg: 'Username does not match' });
+        response.status(201).json({ msg: 'Username does not match' });
+        return;
     }
 
     try {
@@ -50,7 +51,7 @@ export const loginUser = async (request, response) => {
             response.status(200).json({ accessToken: accessToken, refreshToken: refreshToken, userData : user });
 
         } else {
-            response.status(400).json({ msg: 'Password does not match' })
+            response.status(201).json({ msg: 'Password does not match' })
         }
     } catch (error) {
         response.status(500).json({ msg: 'error while login the user' })

@@ -19,7 +19,7 @@ export const createConversation = async (request, response) => {
         //console.log(savedConversation);
         response.status(200).json(savedConversation);
     } catch (err) {
-        response.status(500).json({ message: "Error saving conversation", err: err });
+        response.status(500).json({ msg: "Error saving conversation", err: err });
     }
 
 }

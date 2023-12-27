@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Box, styled } from '@mui/material'
+import { Box, styled , Typography } from '@mui/material'
 import SingleChat from './SingleChat'
 import { API } from '../../../service/api'
 
@@ -31,22 +31,29 @@ const Chat = styled(Box)`
   height: fit-content;
   margin-bottom: 1vh;
 `
+const Time = styled(Typography)`
+
+`
 
 export default function ChatBody({ messages, sender }) {
+
+  
+
   return (
     <Container>
       {console.log(messages,sender)}
       {
-        messages.map(text =>(
+        messages.length > 0 ? messages.map(text =>(
           <Chat>
             {
               text.sender === sender?
-              <Sent>{text.message}</Sent>
+              <Sent><SingleChat text={text}></SingleChat></Sent>
               :
               <Recieve>{text.message}</Recieve>
             }
           </Chat>
         ))
+        : <div></div>
       }
     </Container>
   )

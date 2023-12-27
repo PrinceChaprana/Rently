@@ -15,9 +15,11 @@ export default function Products({products}) {
     <Grid container>
     {
       products?.length ? products.map(post => (
-        <Grid item lg={3} sm={3} xs={6} >          
-            <Product product={post} />
-        </Grid>
+          post?
+            <Grid item lg={3} sm={3} xs={6} >          
+                <Product product={post} />
+            </Grid>
+            :" "        
       )) : <Box style={{ color: '878787', margin: '30px 80px', fontSize: 18 }}>
         No product for sell
       </Box>}

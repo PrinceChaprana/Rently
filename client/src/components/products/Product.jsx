@@ -93,6 +93,8 @@ export default function Product({ product }) {
   const { account } = useContext(DataContext);
   const location = useLocation();
 
+  const url = product.picture?product.picture:"";
+
     const CalculateDate = () => {
       let date = product.postDate;
       let date2 = new Date(date);
@@ -157,7 +159,7 @@ export default function Product({ product }) {
         </IconContainer>
       </IconWrapper>
       <ImageWrapper>
-        <Image onClick={()=>navigate(`/detail/${product._id}`)}  src={product.picture} />
+        <Image onClick={()=>navigate(`/detail/${product._id}`)}  src={url} />
       </ImageWrapper>
       <div style={{ margin: '5%' }}>
         <UserName to={`/profile/${product.username}` }>

@@ -16,7 +16,6 @@ const Wrapper = styled(Box)`
   height: 100vh;
 
 `
-
 const HalfWrapper = styled(Box)`
     width: 50vw;
     height: 100vh;
@@ -25,7 +24,6 @@ const HalfWrapper = styled(Box)`
       width: 100vw;
     }
 `
-
 const Heading = styled(Box)`
   width: 100%;
   padding-top:40% ;
@@ -52,7 +50,6 @@ const Logo = styled(Box)`
           justify-content: center;
         }
 `
-
 const FormWrapper = styled(Box)`
   display: flex;
   flex-direction: column;
@@ -60,14 +57,13 @@ const FormWrapper = styled(Box)`
   height: 100%;
   align-items: center;
   & > div{
-    margin: 1% 1%;
+    margin: 1vh 1vw;
     width: 80%;
   }
   
 `
-
 const initialLogin = {
-  username: '',
+  email: '',
   password: ''
 }
 
@@ -78,12 +74,9 @@ export default function Login({isUserAuthenticated}) {
   const [login, setlogin] = useState(initialLogin);
   const [signup, setsignup] = useState(initialSignUp);
   const [error, showError] = useState('');
-  const { setAccount } = useContext(DataContext);
-
+  const { setAccount,setwishlist } = useContext(DataContext);
   const navigate = useNavigate();
     
-    
-
   const toggleState = () => {
     if (state === 'login') {
       setState('signup')
@@ -91,14 +84,20 @@ export default function Login({isUserAuthenticated}) {
       setState('login')
     }
   }
-
   const loginValueChange = (e) => {
+    //console.log(login,error)
+    if(login[e.target.name].includes(" ")){
+      showError(`Remove space in the ${e.target.name}`)
+    }else{
+      showError("");
+    }
     setlogin({ ...login, [e.target.name]: e.target.value });
   }
   const signupValueChange = (e) => {
+    //Data validation
+    DataValidator(e.target.name);
     setsignup({ ...signup, [e.target.name]: e.target.value });
   }
-
   const { coords, isGeolocationAvailable, isGeolocationEnabled } = useGeolocated({
     positionOptions: {
       enableHighAccuracy: true,
@@ -107,7 +106,6 @@ export default function Login({isUserAuthenticated}) {
     userDecisionTimeout: 5000,
     watchPosition: true,
   });
-
   const getLocation = () => {
     !isGeolocationAvailable ? (console.log('Your browser does not support Geolocation'))
       : !isGeolocationEnabled ? (console.log('Geolocation is not enabled'))
@@ -118,8 +116,33 @@ export default function Login({isUserAuthenticated}) {
     console.log(signup);
   }
 
+  const DataValidator = (placeholder)=> {
+    let pincodeRegex = /^[0-9]+$/;
+    if(placeholder === "email" || placeholder === "password" || placeholder === "pincode"){
+      if(signup[placeholder].includes(" ")){
+        showError(`Remove space in ${placeholder}`);
+      }else{
+        showError("");
+      }
+    }
+    else if(signup["pincode"].length > 6){
+      showError('length of pincode is more the 6');
+    }
+    else if(!pincodeRegex.test(signup["pincode"])){
+      showError('pincode must containe numbers');
+    }else{
+      showError('');
+    }
+  }
+
   const loginUser = async() => {
+    DataValidator("email");
+    if(error.length > 0){
+      showError('Please remove errors');
+      return;
+    }
     let response = await API.userLogin(login);
+    console.log(response);
     if (response.isSuccess) {
         showError('');
 
@@ -129,12 +152,20 @@ export default function Login({isUserAuthenticated}) {
         console.log(response.data.userData)
         isUserAuthenticated(true)
         setlogin(initialLogin);
+        let wishlist_data = await API.getWishlist({ email: login.email });
+        setwishlist(wishlist_data?.data);
+
         navigate('/');
     } else {
-        showError('Something went wrong! please try again later');
+        showError(response.msg);
     }
   }
   const signupUser = async() => {
+    if(error.length > 0){
+      showError('Please remove errors');
+      return;
+    }
+
     let response = await API.userSignup(signup);
     if (response.isSuccess) {
         showError('');
@@ -150,12 +181,12 @@ export default function Login({isUserAuthenticated}) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-
   return (
     <>
       {
         state === 'login' ?
           <Wrapper>
+            {/* Login Window */}
             <HalfWrapper className='poster' style={{ background: 'yellow' }}>
               <Heading>
                 Welcome back
@@ -166,13 +197,14 @@ export default function Login({isUserAuthenticated}) {
             </HalfWrapper>
             <HalfWrapper >
               <Logo style={{margin: '20vh 10vw 1vh 10vw'}}>RentApp</Logo>
+              <Typography style={{color:"red",fontSize:"12px"}}>{error}</Typography>
               <FormWrapper>
                 <TextField
                   className='input-field'
                   required
                   id="outlined-required"
-                  name='username'
-                  label="Username"
+                  name='email'
+                  label="Email"
                   onChange={(e) => loginValueChange(e)}
                 />
                 <TextField
@@ -191,9 +223,11 @@ export default function Login({isUserAuthenticated}) {
           </Wrapper>
           :
           <Wrapper>
+            {/* SignUp Window */}
             <HalfWrapper >
               <Logo>RentApp</Logo>
               <FormWrapper>
+              <Typography style={{color:"red",fontSize:"12px"}}>{error}</Typography>
                 
                 <TextField
                   required

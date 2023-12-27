@@ -18,16 +18,20 @@ export default function Wishlist() {
       }
     }
     getWishlist();
+    console.log(products.length);
   }, []);
 
 
   return (
     <div style={{padding:"1vh",overflowY:'scroll',height:"90vh"}}>
       <div style={{width:"100vw",textAlign:"center",fontSize:"5vh",fontWeight:"bold",color:"#551a8b"}}>
-        <label style={{}}>Wishlist</label>
-
+        <label>Wishlist</label>
       </div>
-      <Products products={products} />
+      {
+        products.length > 0 ?
+          <Products products={products} />
+        :<div>No products</div>
+      }
     </div>
   )
 }

@@ -87,6 +87,7 @@ export default function ChatPage() {
   let [messages,setMessage] = useState([]);
   let [text,setText] = useState('');
   const [conversation,setConversation] = useState({});
+  const [timer,setTimer] = useState(new Date());
 
   const [open, setOpen] = useState(true);
   const handleOpen = () => {
@@ -109,6 +110,7 @@ export default function ChatPage() {
     let response = await API.sendMessage(message);
     if(response.isSuccess){
       setText('');
+      getAllMessages();
     }
   }
 
@@ -122,13 +124,13 @@ export default function ChatPage() {
     }
     setupConversation();
   },[]);
-
+  
+  const getAllMessages = async()=>{
+    console.log(conversation)
+    let response = await API.getMessage({id:conversation._id});
+    setMessage(response.data);
+  }
   useEffect(()=>{
-    const getAllMessages = async()=>{
-      console.log(conversation)
-      let response = await API.getMessage({id:conversation._id});
-      setMessage(response.data);
-    }
     getAllMessages();
   },[conversation]);
 

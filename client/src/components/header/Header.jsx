@@ -10,6 +10,8 @@ import Login from '../login/Login';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { DataContext } from '../../context/DataProvider';
 import { UserData } from '../../constant/variable';
+import { getAccessToken } from '../../utils/common-utils';
+import { API } from '../../service/api';
 
 
 
@@ -60,7 +62,7 @@ const UsernameWrapper = styled(Button)`
 
 export default function Header({ isAuthenticated, isUserAuthenticated }) {
 
-        const { account } = useContext(DataContext);
+        const { account, setAccount } = useContext(DataContext);
         //drop down menu of user icon
         const [anchorEl, setAnchorEl] = React.useState(null);
         const open = Boolean(anchorEl);
@@ -70,10 +72,12 @@ export default function Header({ isAuthenticated, isUserAuthenticated }) {
         const handleClose = () => {
                 setAnchorEl(null);
         };
-        const logout = () => {
+        const logout = async() => {
+                let accesstoken = getAccessToken().split(' ')[1];
+                console.log(accesstoken);
+                await API.logout({token:accesstoken});
                 isUserAuthenticated(false);
-                account(UserData);
-
+                setAccount(UserData);
                 sessionStorage.removeItem('refreshToken');
                 sessionStorage.removeItem('accessToken');
                 handleClose();
@@ -113,11 +117,11 @@ export default function Header({ isAuthenticated, isUserAuthenticated }) {
                                                                 <MenuItem onClick={handleClose}><Link to='/sell' style={{ textDecoration: 'none' }}>Sell</Link></MenuItem>
                                                                 <MenuItem onClick={handleClose}><Link to='/wishlist' style={{ textDecoration: 'none' }}>Wishlist</Link></MenuItem>
 
-                                                                <MenuItem onClick={logout}>Logout</MenuItem>
+                                                                <MenuItem onClick={()=>logout()}>Logout</MenuItem>
                                                         </Menu>
                                                 </div>
                                                 :
-                                                <Link to={'/login'} style={{ textDecoration: 'none', width: '10vw', fontSize: '3vh', color: 'white' }}>Login / Sign Up</Link>
+                                                <Link to={'/login'} style={{ textDecoration: 'none', width: '10vw', fontSize: '2vw', color: 'white' }}>Login / Sign Up</Link>
                                 }
                         </Container>
                 </>

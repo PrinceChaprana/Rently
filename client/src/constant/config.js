@@ -28,6 +28,7 @@ export const API_NOTIFICATION_MESSAGES = {
 export const SERVICE_URLS = {
         userLogin: { url: '/login', method: 'POST' },
         userSignup: { url: '/signup', method: 'POST' },
+        logout:{url:'/logout', method: 'POST'},
         getUserData : {url:'/profile',method: 'GET',query:true},
         uploadFile:{url: 'file/upload', method: 'POST'},
         createProduct:{url:'/create', method: 'POST'},
@@ -40,4 +41,5 @@ export const SERVICE_URLS = {
         createConversation:{url:'/conversation',method: 'POST',params:true},
         sendMessage:{url:'/message/add',method: 'POST'},
         getMessage:{url:'/message/get',method: 'GET',params:true},
+        getRefreshToken:{url:'/token',method: 'POST'},
 }
