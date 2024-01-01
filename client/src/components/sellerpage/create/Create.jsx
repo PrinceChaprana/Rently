@@ -1,10 +1,10 @@
 import { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { TextField, styled, Box, Button, FormControl } from '@mui/material'
+import { TextField, styled, Box, Button, FormControl , Select , MenuItem } from '@mui/material'
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import { API } from '../../../service/api';
 import { DataContext } from '../../../context/DataProvider';
-import { ProductData } from '../../../constant/variable';
+import { ProductData , CategoryData } from '../../../constant/variable';
 
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -77,7 +77,6 @@ export default function Create() {
                 }
                 getImage();
                 setUrl(product.picture);
-                console.log(url);
                 product.username = account.email;
                 product.addressline = account.addressline;
                 product.city = account.city;
@@ -126,7 +125,20 @@ export default function Create() {
                                 <TextField label='Name' name='name' onChange={(e) => handleChange(e)}></TextField>
                                 <TextField label='Discription' name='discription' onChange={(e) => handleChange(e)}></TextField>
                                 <TextField label='Price' name='price' onChange={(e) => handleChange(e)}></TextField>
-                                <TextField label='category' name='category' onChange={(e) => handleChange(e)}></TextField>
+                                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                                        <Select
+                                                value={product.category}
+                                                name='category'
+                                                onChange={(e)=>handleChange(e)}
+                                        >
+                                                {
+                                                        CategoryData.map(category => (
+                                                                <MenuItem value={category}>{category}</MenuItem>
+                                                        ))
+                                                }
+                                        </Select>
+
+                                </FormControl>
                                 <StyledButton onClick={() => uploadProduct()}>Post</StyledButton>
 
                         </Container>

@@ -112,13 +112,13 @@ export default function Product({ product }) {
 
     useEffect(()=>{
       //for moving localhost images to server of deployment
-      //if(process.env.NODE_ENV==="production"){
+      if(process.env.NODE_ENV==="production"){
         if(url.includes("localhost")){
           let urlparts = url.split("/");
           product.picture = "https://rentingapp-f731e611bb2b.herokuapp.com/"+urlparts[3]+"/"+urlparts[4];
           console.log(url,urlparts);
         }
-      //}
+      }
     },[])
 
   const WishlistProduct = async(id)=>{

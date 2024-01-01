@@ -29,6 +29,22 @@ export const ProductData = {
         username: ''
 }
 
+export const SearchParams = {
+        //important params for default search
+        keywords: '',
+        longitude: '',
+        latitude: '',
+        distance: '5',
+        //for filteration purposes only
+        type: 'product',
+        category: '',
+        city: '',
+        state: '',
+        country: '',
+        pincode: '',
+        price: [],
+};
+
 export const MessageData = {
         conversationId:'',
         sender:'',
@@ -36,6 +52,23 @@ export const MessageData = {
         messageType:'',
         message:''
 }
+
+export const CategoryData = [
+        "mobile",
+        "computers",
+        "electronics",
+        "fashion",
+        "beauty",
+        "toys",
+        "automobiles",
+        "books",
+        "movies",
+        "software",
+        "games",
+        "home",
+        "kitchen",
+        "other"
+]
 
 
 export const LocationDefault = {

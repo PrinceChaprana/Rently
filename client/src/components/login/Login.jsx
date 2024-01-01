@@ -1,14 +1,18 @@
-import React, { useState,useContext } from 'react';
+import React, { useState,useContext, useEffect } from 'react';
 import { styled, Box, Button, Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { useGeolocated } from 'react-geolocated';
 import {useNavigate} from 'react-router-dom'
 import { API } from '../../service/api';
+import {Country,State,City} from 'country-state-city' ;
+
+import {FormControl,Select,MenuItem,InputLabel} from '@mui/material'
 
 import { DataContext } from '../../context/DataProvider';
 
 import './styles.css';
 import { UserData } from '../../constant/variable';
+import { countryList, countryListWithCode } from '../../constant/data';
 
 const Wrapper = styled(Box)`
   display: flex;
@@ -70,12 +74,30 @@ const initialLogin = {
 export default function Login({isUserAuthenticated}) {
   let initialSignUp = UserData;
 
-  const [state, setState] = useState('login');
+  const [state, setState] = useState('signup');
   const [login, setlogin] = useState(initialLogin);
   const [signup, setsignup] = useState(initialSignUp);
   const [error, showError] = useState('');
   const { setAccount,setwishlist } = useContext(DataContext);
   const navigate = useNavigate();
+  const [states,setStates] = useState([]);
+  const [cities,setCities] = useState([]);
+  let countryCode;
+
+  //set all the address fields
+  useEffect(() => {
+    //when country is set load all the state of the respective country
+    //states = CountriesApi.gets
+    setStates(State.getStatesOfCountry(signup.country));
+    // console.log(states);
+    // console.log(signup.country);
+  },[signup.country])
+
+  useEffect(() => {
+    //set cities based of the state selected
+    setCities(City.getCitiesOfState(signup.country,signup.state));
+    console.log(cities);
+  },[signup.state])
     
   const toggleState = () => {
     if (state === 'login') {
@@ -97,6 +119,7 @@ export default function Login({isUserAuthenticated}) {
     //Data validation
     DataValidator(e.target.name);
     setsignup({ ...signup, [e.target.name]: e.target.value });
+    console.log(signup);
   }
   const { coords, isGeolocationAvailable, isGeolocationEnabled } = useGeolocated({
     positionOptions: {
@@ -260,20 +283,41 @@ export default function Login({isUserAuthenticated}) {
                   autoComplete="current-password"
                 />
                 <div className='city'>
-                <TextField
-                  id="outlined-password-input"
-                  label="City"
-                  onChange={(e) => signupValueChange(e)}
-                  name='city'
-                  autoComplete="current-password"
-                />
-                <TextField
-                id="outlined-password-input"
-                label="State"
-                onChange={(e) => signupValueChange(e)}
-                name='state'
-                autoComplete="current-password"
-                />
+                <FormControl >
+                  <InputLabel id='country'>Country</InputLabel>
+                  <Select
+                    labelId='country'
+                    value={signup.country}
+                    name='country'
+                    label="Country"
+                    onChange = {(e)=>signupValueChange(e)}          
+                  >
+                    {
+                      countryListWithCode.map(country =>{
+                        return <MenuItem value = {country.code}>{country.name}</MenuItem>
+                      })
+                    }
+                  </Select>
+                </FormControl>
+                
+                <FormControl >
+                  <InputLabel id='state'>State</InputLabel>
+                  <Select
+                    labelId='state'
+                    value={signup.state}
+                    name='state'
+                    label="State"
+                    onChange = {(e)=>signupValueChange(e)}          
+                  >
+                    {
+                      states.length ? states.map(state =>{
+                        //console.log(state);
+                        return <MenuItem value = {state.isoCode}>{state.name}</MenuItem>
+                      })
+                      :<MenuItem>Select Country</MenuItem>
+                    }
+                  </Select>
+                </FormControl>
                 </div>
                 <div className='city'>
                 <TextField
@@ -283,13 +327,24 @@ export default function Login({isUserAuthenticated}) {
                   name='pincode'
                   autoComplete="current-password"
                 />
-                <TextField
-                  id="outlined-password-input"
-                  label="Country"
-                  onChange={(e) => signupValueChange(e)}
-                  name='country'
-                  autoComplete="current-password"
-                />
+                <FormControl >
+                  <InputLabel id='city'>City</InputLabel>
+                  <Select
+                    labelId='city'
+                    value={signup.city}
+                    name='city'
+                    label="City"
+                    onChange = {(e)=>signupValueChange(e)}          
+                  >
+                    {
+                      cities.length ? cities.map(city =>{
+                        //console.log(city);
+                        return <MenuItem value = {city.name}>{city.name}</MenuItem>
+                      })
+                      :<MenuItem>Select State</MenuItem>
+                    }
+                  </Select>
+                </FormControl>
                 </div>
                 <Button varient='standard' onClick={() => getLocation()}>Get Location</Button>
 

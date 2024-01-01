@@ -42,10 +42,16 @@ export default function SearchBar() {
         const [searchText,setSearchText] = useState('');
         const navigate = useNavigate();
         const handleChange = (e) => {
+                //console.log(e);
                 if(e.target.value === ' ')
                         setSearchText(e.target.value);
                 else
                         setSearchText(e.target.value);
+        }
+        const handleKeyPress = (e) => {
+                if(e.key === 'Enter'){
+                        SearchProduct();
+                }
         }
         const SearchProduct = () =>{
                 const query = searchText.split(/[ ]+/).join('+')
@@ -56,7 +62,7 @@ export default function SearchBar() {
   return (
     <div height="100%">
         <Container>
-                <InputSearchField type='search' onSearch={()=>SearchProduct()} onChange={(e)=>handleChange(e)} placeholder='Search the Product...'/>
+                <InputSearchField type='search' onKeyDown={(e)=>handleKeyPress(e)} onSearch={()=>SearchProduct()} onChange={(e)=>handleChange(e)} placeholder='Search the Product...'/>
                 <SearchButton>
                         <div  onClick={()=>SearchProduct()}><SearchIcon/></div>
                 </SearchButton>

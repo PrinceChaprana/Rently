@@ -89,7 +89,7 @@ export default function Header({ isAuthenticated, isUserAuthenticated }) {
                 <>
                         <Container>
                                 <Logo to='/'>RentApp</Logo>
-                                <SearchbarWrapper ><SearchBar /></SearchbarWrapper>
+                                <SearchbarWrapper ><SearchBar/></SearchbarWrapper>
                                 {
                                         isAuthenticated ?
                                                 <div >
