@@ -6,6 +6,7 @@ import { API } from '../../service/api'
 import {Box,styled}from '@mui/material'
 import { LocationDefault } from '../../constant/variable'
 import SearchBar from '../searchbar/SearchBar'
+import ShopByCategory from '../shopby/ShopByCategory'
 
 const Container = styled(Box)`
   padding: 0 1vw;
@@ -45,6 +46,7 @@ export default function Home({ isAuthenticated }) {
   }, []);
   return (
     <div style={{ height: '90vh', overflowY: 'scroll', padding: '1vh 0' }}>
+      <ShopByCategory/>
       <Container>
         <label>Products Near You</label>
         <SwiperProduct products={nearbyProducts} />

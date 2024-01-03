@@ -1,12 +1,12 @@
-import React, { useState,useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { styled, Box, Button, Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { useGeolocated } from 'react-geolocated';
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { API } from '../../service/api';
-import {Country,State,City} from 'country-state-city' ;
+import { Country, State, City } from 'country-state-city';
 
-import {FormControl,Select,MenuItem,InputLabel} from '@mui/material'
+import { FormControl, Select, MenuItem, InputLabel } from '@mui/material'
 
 import { DataContext } from '../../context/DataProvider';
 
@@ -71,34 +71,33 @@ const initialLogin = {
   password: ''
 }
 
-export default function Login({isUserAuthenticated}) {
+export default function Login({ isUserAuthenticated }) {
   let initialSignUp = UserData;
 
   const [state, setState] = useState('signup');
   const [login, setlogin] = useState(initialLogin);
   const [signup, setsignup] = useState(initialSignUp);
   const [error, showError] = useState('');
-  const { setAccount,setwishlist } = useContext(DataContext);
+  const { setAccount, setwishlist } = useContext(DataContext);
   const navigate = useNavigate();
-  const [states,setStates] = useState([]);
-  const [cities,setCities] = useState([]);
-  let countryCode;
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [coordinates, setCoordinates] = useState({longitude: '', latitude: ''});
 
   //set all the address fields
   useEffect(() => {
-    //when country is set load all the state of the respective country
-    //states = CountriesApi.gets
+    // when country is set load all the state of the respective country
+    // states = CountriesApi.gets
+    // countires cordinates
     setStates(State.getStatesOfCountry(signup.country));
     // console.log(states);
     // console.log(signup.country);
-  },[signup.country])
-
+  }, [signup.country])
   useEffect(() => {
     //set cities based of the state selected
-    setCities(City.getCitiesOfState(signup.country,signup.state));
+    setCities(City.getCitiesOfState(signup.country, signup.state));
     console.log(cities);
-  },[signup.state])
-    
+  }, [signup.state])
   const toggleState = () => {
     if (state === 'login') {
       setState('signup')
@@ -108,9 +107,9 @@ export default function Login({isUserAuthenticated}) {
   }
   const loginValueChange = (e) => {
     //console.log(login,error)
-    if(login[e.target.name].includes(" ")){
+    if (login[e.target.name].includes(" ")) {
       showError(`Remove space in the ${e.target.name}`)
-    }else{
+    } else {
       showError("");
     }
     setlogin({ ...login, [e.target.name]: e.target.value });
@@ -138,64 +137,62 @@ export default function Login({isUserAuthenticated}) {
 
     console.log(signup);
   }
-
-  const DataValidator = (placeholder)=> {
+  const DataValidator = (placeholder) => {
     let pincodeRegex = /^[0-9]+$/;
-    if(placeholder === "email" || placeholder === "password" || placeholder === "pincode"){
-      if(signup[placeholder].includes(" ")){
+    if (placeholder === "email" || placeholder === "password" || placeholder === "pincode") {
+      if (signup[placeholder].includes(" ")) {
         showError(`Remove space in ${placeholder}`);
-      }else{
+      } else {
         showError("");
       }
     }
-    else if(signup["pincode"].length > 6){
+    else if (signup["pincode"].length > 6) {
       showError('length of pincode is more the 6');
     }
-    else if(!pincodeRegex.test(signup["pincode"])){
+    else if (!pincodeRegex.test(signup["pincode"])) {
       showError('pincode must containe numbers');
-    }else{
+    } else {
       showError('');
     }
   }
-
-  const loginUser = async() => {
+  const loginUser = async () => {
     DataValidator("email");
-    if(error.length > 0){
+    if (error.length > 0) {
       showError('Please remove errors');
       return;
     }
     let response = await API.userLogin(login);
     console.log(response);
     if (response.isSuccess) {
-        showError('');
+      showError('');
 
-        sessionStorage.setItem('accessToken', `Bearer ${response.data.accessToken}`);
-        sessionStorage.setItem('refreshToken', `Bearer ${response.data.refreshToken}`);
-        setAccount(response.data.userData);
-        console.log(response.data.userData)
-        isUserAuthenticated(true)
-        setlogin(initialLogin);
-        let wishlist_data = await API.getWishlist({ email: login.email });
-        setwishlist(wishlist_data?.data);
+      sessionStorage.setItem('accessToken', `Bearer ${response.data.accessToken}`);
+      sessionStorage.setItem('refreshToken', `Bearer ${response.data.refreshToken}`);
+      setAccount(response.data.userData);
+      console.log(response.data.userData)
+      isUserAuthenticated(true)
+      setlogin(initialLogin);
+      let wishlist_data = await API.getWishlist({ email: login.email });
+      setwishlist(wishlist_data?.data);
 
-        navigate('/');
+      navigate('/');
     } else {
-        showError(response.msg);
+      showError(response.msg);
     }
   }
-  const signupUser = async() => {
-    if(error.length > 0){
+  const signupUser = async () => {
+    if (error.length > 0) {
       showError('Please remove errors');
       return;
     }
 
     let response = await API.userSignup(signup);
     if (response.isSuccess) {
-        showError('');
-        setsignup(initialSignUp);
-        toggleState('login');
+      showError('');
+      setsignup(initialSignUp);
+      toggleState('login');
     } else {
-        showError('Something went wrong! please try again later');
+      showError('Something went wrong! please try again later');
     }
   }
 
@@ -219,8 +216,8 @@ export default function Login({isUserAuthenticated}) {
               </SubHeading>
             </HalfWrapper>
             <HalfWrapper >
-              <Logo style={{margin: '20vh 10vw 1vh 10vw'}}>RentApp</Logo>
-              <Typography style={{color:"red",fontSize:"12px"}}>{error}</Typography>
+              <Logo style={{ margin: '20vh 10vw 1vh 10vw' }}>RentApp</Logo>
+              <Typography style={{ color: "red", fontSize: "12px" }}>{error}</Typography>
               <FormWrapper>
                 <TextField
                   className='input-field'
@@ -250,8 +247,8 @@ export default function Login({isUserAuthenticated}) {
             <HalfWrapper >
               <Logo>RentApp</Logo>
               <FormWrapper>
-              <Typography style={{color:"red",fontSize:"12px"}}>{error}</Typography>
-                
+                <Typography style={{ color: "red", fontSize: "12px" }}>{error}</Typography>
+
                 <TextField
                   required
                   id="outlined-required"
@@ -283,68 +280,68 @@ export default function Login({isUserAuthenticated}) {
                   autoComplete="current-password"
                 />
                 <div className='city'>
-                <FormControl >
-                  <InputLabel id='country'>Country</InputLabel>
-                  <Select
-                    labelId='country'
-                    value={signup.country}
-                    name='country'
-                    label="Country"
-                    onChange = {(e)=>signupValueChange(e)}          
-                  >
-                    {
-                      countryListWithCode.map(country =>{
-                        return <MenuItem value = {country.code}>{country.name}</MenuItem>
-                      })
-                    }
-                  </Select>
-                </FormControl>
-                
-                <FormControl >
-                  <InputLabel id='state'>State</InputLabel>
-                  <Select
-                    labelId='state'
-                    value={signup.state}
-                    name='state'
-                    label="State"
-                    onChange = {(e)=>signupValueChange(e)}          
-                  >
-                    {
-                      states.length ? states.map(state =>{
-                        //console.log(state);
-                        return <MenuItem value = {state.isoCode}>{state.name}</MenuItem>
-                      })
-                      :<MenuItem>Select Country</MenuItem>
-                    }
-                  </Select>
-                </FormControl>
+                  <FormControl >
+                    <InputLabel id='country'>Country</InputLabel>
+                    <Select
+                      labelId='country'
+                      value={signup.country}
+                      name='country'
+                      label="Country"
+                      onChange={(e) => signupValueChange(e)}
+                    >
+                      {
+                        countryListWithCode.map(country => {
+                          return <MenuItem value={country.code}>{country.name}</MenuItem>
+                        })
+                      }
+                    </Select>
+                  </FormControl>
+
+                  <FormControl >
+                    <InputLabel id='state'>State</InputLabel>
+                    <Select
+                      labelId='state'
+                      value={signup.state}
+                      name='state'
+                      label="State"
+                      onChange={(e) => signupValueChange(e)}
+                    >
+                      {
+                        states.length ? states.map(state => {
+                          //console.log(state);
+                          return <MenuItem value={state.isoCode}>{state.name}</MenuItem>
+                        })
+                          : <MenuItem>Select Country</MenuItem>
+                      }
+                    </Select>
+                  </FormControl>
                 </div>
                 <div className='city'>
-                <TextField
-                  id="outlined-password-input"
-                  label="Pin Code"
-                  onChange={(e) => signupValueChange(e)}
-                  name='pincode'
-                  autoComplete="current-password"
-                />
-                <FormControl >
-                  <InputLabel id='city'>City</InputLabel>
-                  <Select
-                    labelId='city'
-                    value={signup.city}
-                    name='city'
-                    label="City"
-                    onChange = {(e)=>signupValueChange(e)}          
-                  >
-                    {
-                      cities.length ? cities.map(city =>{
-                        //console.log(city);
-                        return <MenuItem value = {city.name}>{city.name}</MenuItem>
-                      })
-                      :<MenuItem>Select State</MenuItem>
-                    }
-                  </Select>
-                </FormControl>
+                  <TextField
+                    id="outlined-password-input"
+                    label="Pin Code"
+                    onChange={(e) => signupValueChange(e)}
+                    name='pincode'
+                    autoComplete="current-password"
+                  />
+                  <FormControl >
+                    <InputLabel id='city'>City</InputLabel>
+                    <Select
+                      labelId='city'
+                      value={signup.city}
+                      name='city'
+                      label="City"
+                      onChange={(e) => signupValueChange(e)}
+                    >
+                      {
+                        cities.length ? cities.map(city => {
+                          //console.log(city);
+                          return <MenuItem value={city.name}>{city.name}</MenuItem>
+                        })
+                          : <MenuItem>Select State</MenuItem>
+                      }
+                    </Select>
+                  </FormControl>
                 </div>
                 <Button varient='standard' onClick={() => getLocation()}>Get Location</Button>
 

@@ -15,6 +15,7 @@ import Create from './components/sellerpage/create/Create';
 import Detail from './components/products/detailView/Detail';
 import Wishlist from './pages/Wishlist';
 import Chat from './pages/chat/ChatPage';
+import Footer from './components/footer/Footer';
 
 const PrivateRoute = ({ isAuthenticated, ...props }) => {
   const token = sessionStorage.getItem('accessToken');
@@ -59,6 +60,7 @@ function App() {
             <Route path='/chat/:username' element={<Chat />} />
           </Route>
         </Routes>
+        <Footer/>
       </BrowserRouter>
     </DataProvider>
   );
