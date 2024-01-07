@@ -65,6 +65,22 @@ export const getAllPosts = async (request, response) => {
     }
 }
 
+const searchCategory = async(keyword,longitude,latitude,response) => {
+    try{
+        let posts = await Post.find({
+
+        });
+    }catch (error) {
+        response.status(500).json(error);
+    }
+}
+
+
+
+const filterSearchProduct = async (request,response) => {
+
+}
+
 const searchProductTillResult = async (keyword,longitude,latitude,distance) => {
 
     let posts = [];

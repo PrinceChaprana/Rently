@@ -70,7 +70,7 @@ export default function ShopByCategory() {
 
                 <Grid style={{
                     background: "#da4f64"
-                }} onClick={() => navigate(`/search?category=mobiles`)}>
+                }} onClick={() => navigate(`/search/category=mobiles`)}>
                     <p>SmartPhone</p>
                     <img src={mobileBg} />
                 </Grid>
@@ -78,7 +78,7 @@ export default function ShopByCategory() {
 
                 <Grid style={{
                     background: "#1cabbd"
-                }} onClick={() => navigate(`/search?category=electronics`)}>
+                }} onClick={() => navigate(`/search/category=electronics`)}>
                     <p>Electronics</p>
                     <img src={electronicsBg} />
                 </Grid>
@@ -87,7 +87,7 @@ export default function ShopByCategory() {
 
                 <Grid style={{
                     background: "#fdbe21"
-                }} onClick={() => navigate(`/search?category=fashion`)}>
+                }} onClick={() => navigate(`/search/category=fashion`)}>
                     <p>Fashion</p>
                     <img src={fashionBg} />
                 </Grid>
@@ -96,7 +96,7 @@ export default function ShopByCategory() {
 
                 <Grid style={{
                     background: "#bce433"
-                }} onClick={() => navigate(`/search?category=automobiles`)}>
+                }} onClick={() => navigate(`/search/category=automobiles`)}>
                     <p>Automobiles</p>
                     <img src={automobileBg} />
                 </Grid>
@@ -105,7 +105,7 @@ export default function ShopByCategory() {
 
                 <Grid style={{
                     background: "#b73037"
-                }} onClick={() => navigate(`/search?category=toys`)}>
+                }} onClick={() => navigate(`/search/category=toys`)}>
                     <p>Toys</p>
                     <img src={toysBg} />
                 </Grid>
@@ -114,7 +114,7 @@ export default function ShopByCategory() {
 
                 <Grid style={{
                     background: "#b6d982"
-                }} onClick={() => navigate(`/search?category=games`)}>
+                }} onClick={() => navigate(`/search/category=games`)}>
                     <p>Games</p>
                     <img src={gamesBg} />
                 </Grid>
@@ -123,7 +123,7 @@ export default function ShopByCategory() {
 
                 <Grid style={{
                     background: "#dbbb7f"
-                }} onClick={() => navigate(`/search?category=kitchen`)}>
+                }} onClick={() => navigate(`/search/category=kitchen`)}>
                     <p>Kitchen</p>
                     <img src={kitchenBg} />
                 </Grid>

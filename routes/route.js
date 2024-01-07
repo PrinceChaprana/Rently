@@ -2,7 +2,8 @@ import express from 'express';
 import {loginUser,signupUser,getUserData,logoutUser} from '../controller/userController.js';
 import {uploadImage,getImage} from '../controller/imageController.js';
 
-import { createPost, deletePost, getPost, getAllPosts,searchProductbyKeyword, searchProduct } from '../controller/postController.js';
+import { createPost, deletePost, getPost, getAllPosts} from '../controller/postController.js';
+import {searchDefaultProduct,filterSearchProduct} from '../controller/searchController.js';    
 import { authenticateToken, createNewToken } from '../controller/jwtController.js';
 import { AddToWishlist,GetWishlist } from '../controller/wishlistController.js';
 import {createConversation} from '../controller/conversationController.js';
@@ -30,7 +31,8 @@ router.delete('/delete/:id', authenticateToken, deletePost);
 router.put('/wishlist',authenticateToken, AddToWishlist);
 router.get('/wishlist',authenticateToken, GetWishlist);
 
-router.get('/search',searchProduct)
+router.get('/search',searchDefaultProduct)
+router.get('/search/filter/',filterSearchProduct)
 
 router.post('/create',authenticateToken, createPost);
 

@@ -16,6 +16,7 @@ import Detail from './components/products/detailView/Detail';
 import Wishlist from './pages/Wishlist';
 import Chat from './pages/chat/ChatPage';
 import Footer from './components/footer/Footer';
+import Map from './components/map/Map';
 
 const PrivateRoute = ({ isAuthenticated, ...props }) => {
   const token = sessionStorage.getItem('accessToken');
@@ -38,6 +39,8 @@ function App() {
           <Route path='/' element={<Home isAuthenticated={isAuthenticated} />} />
           
             <Route path='/profile/:username' element={<Profile />} />
+
+          <Route path='/map' element={<Map/>} />
           
           <Route path='/account' element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
             <Route path='/account' element={<Account />} />

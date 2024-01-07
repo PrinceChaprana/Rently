@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { Link, useNavigate, useLocation, useParams } from 'react-router-dom'
+import { Link, useNavigate, useLocation, useParams, useSearchParams } from 'react-router-dom'
 import { API } from '../../service/api';
 import Products from '../products/Products'
 import { styled, Box } from '@mui/material'
@@ -18,10 +18,15 @@ export default function SearchPage() {
   const location = useLocation();
   let [products, setProducts] = useState({});
   let [filterButton, pressFilter] = useState(false);
-  const [searchParams, setSearchParams] = useState([]);
+  const [searchParams, setSearchParams] = useState({});
 
 
   useEffect(() => {
+
+    //get the params of the search
+
+    console.log(keyword);
+
     setSearchParams({
       //globally save the search params
       ...searchParams,
@@ -30,6 +35,58 @@ export default function SearchPage() {
       latitude: account.latitude ? account.latitude : LocationDefault.latitude
     });
   }, []);
+
+  useEffect(() => {
+
+    let longitude = account.longitude ? account.longitude : LocationDefault.longitude;
+    let latitude = account.latitude ? account.latitude : LocationDefault.latitude;
+
+    let params = keyword.split('=');
+    setSearchParams({...searchParams, ["keywords"]:'', ['longitude']:longitude, ['latitude']:latitude});
+
+    const searchProduct = async()=>{
+      let response;
+      switch (params[0]) {
+        case "keyword":{
+            setSearchParams({...searchParams,["keywords"]:params[1]});
+            response = await API.defaultSearch({keyword: params[1],longitude,latitude});
+          break;
+        }
+        case "category":{
+          setSearchParams({...searchParams,["category"]:params[1]});
+            response = await API.defaultSearch({category:params[1],longitude,latitude});
+          break;
+        }
+        case "city":{
+          setSearchParams({...searchParams,["city"]:params[1]});
+            response = await API.defaultSearch({city:params[1]});
+          break;
+        }
+        case "state":{
+          setSearchParams({...searchParams,["state"]:params[1]});
+          response = await API.defaultSearch({state:params[1]});
+        }
+        case "country":{
+          setSearchParams({...searchParams,["country"]:params[1]});
+          response = await API.defaultSearch({country:params[1]});
+          break;
+        }
+        case "pincode":{
+          setSearchParams({...searchParams,["pincode"]:params[1]});
+          response = await API.defaultSearch({pincode:params[1]});
+          break;
+        }    
+        default:
+          break;
+      }
+      if(response.isSuccess){
+        setProducts(response.data);
+      }
+    }
+    searchProduct();
+    console.log(products);
+
+  },[keyword]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -42,12 +99,12 @@ export default function SearchPage() {
     }
     //setSearchParams({...searchParams,keywords:keyword,longitude:account.longitude?account.longitude:LocationDefault.longitude,latitude:account.latitude?account.latitude:LocationDefault.latitude});
     //const keyword = location.search?.split('=')[1];
-    fetchProduct();
+    //fetchProduct();
 
-  }, [keyword]);
+  }, []);
 
   const fetchProducts = async () => {
-    let response = await API.searchProduct(searchParams);
+    let response = await API.filterSearch(searchParams);
     console.log(response);
   }
 
@@ -65,6 +122,7 @@ export default function SearchPage() {
   return (
     <Container>
       <FilterTab pressFilter={pressFilter} searchParams={searchParams} setSearchParams={setSearchParams} />
+      {console.log(products)}
       {
         products?.length ? <Products products={products} />
           :

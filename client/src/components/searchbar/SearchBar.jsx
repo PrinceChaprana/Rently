@@ -56,7 +56,7 @@ export default function SearchBar() {
         const SearchProduct = () =>{
                 const query = searchText.split(/[ ]+/).join('+')
                 // console.log(query)
-                navigate(`/search/${query}`)
+                navigate(`/search/keyword=${query}`)
         }
 
   return (

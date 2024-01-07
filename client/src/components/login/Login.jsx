@@ -6,13 +6,14 @@ import { useNavigate } from 'react-router-dom'
 import { API } from '../../service/api';
 import { Country, State, City } from 'country-state-city';
 
-import { FormControl, Select, MenuItem, InputLabel } from '@mui/material'
+import { FormControl, Select, MenuItem, InputLabel, Modal } from '@mui/material'
 
 import { DataContext } from '../../context/DataProvider';
 
 import './styles.css';
 import { UserData } from '../../constant/variable';
 import { countryList, countryListWithCode } from '../../constant/data';
+import Map from '../map/Map';
 
 const Wrapper = styled(Box)`
   display: flex;
@@ -66,6 +67,23 @@ const FormWrapper = styled(Box)`
   }
   
 `
+
+const ModelContainer = styled(Box)`
+  position: absolute;
+  top:50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background: white;
+  height:84vh;
+  padding: 2vh 1vh;
+  width: 60vw;
+  border-radius: 1rem;
+  
+
+  @media screen and (max-width:426px) {
+    height: 50vh;
+  }
+`
 const initialLogin = {
   email: '',
   password: ''
@@ -82,22 +100,38 @@ export default function Login({ isUserAuthenticated }) {
   const navigate = useNavigate();
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
-  const [coordinates, setCoordinates] = useState({longitude: '', latitude: ''});
+  const [coordinates, setCoordinates] = useState({ longitude: '', latitude: '' });
+  const [coords,setCoords] = useState([28.733898510530132,77.20300044368255]);
+  const [zoom,setZoom] = useState(12);
 
   //set all the address fields
   useEffect(() => {
     // when country is set load all the state of the respective country
     // states = CountriesApi.gets
     // countires cordinates
+    let country = Country.getCountryByCode(signup.country);
+    setCoords([country?.latitude,country?.longitude]);
+    console.log(coords);
     setStates(State.getStatesOfCountry(signup.country));
     // console.log(states);
     // console.log(signup.country);
   }, [signup.country])
   useEffect(() => {
     //set cities based of the state selected
+    let state = State.getStateByCodeAndCountry(signup.state,signup.country);
+    setCoords([state?.latitude,state?.longitude ]);
+    setZoom(9);
     setCities(City.getCitiesOfState(signup.country, signup.state));
-    console.log(cities);
   }, [signup.state])
+
+  useEffect(() => {
+    cities.forEach(city => {
+      if(city.name === signup.city){
+        setCoords([city?.latitude,city?.longitude]);
+        setZoom(12);
+      }
+    });
+  }, [signup.city]);
   const toggleState = () => {
     if (state === 'login') {
       setState('signup')
@@ -120,22 +154,30 @@ export default function Login({ isUserAuthenticated }) {
     setsignup({ ...signup, [e.target.name]: e.target.value });
     console.log(signup);
   }
-  const { coords, isGeolocationAvailable, isGeolocationEnabled } = useGeolocated({
-    positionOptions: {
-      enableHighAccuracy: true,
-      maximumAge: 0,
-    },
-    userDecisionTimeout: 5000,
-    watchPosition: true,
-  });
-  const getLocation = () => {
-    !isGeolocationAvailable ? (console.log('Your browser does not support Geolocation'))
-      : !isGeolocationEnabled ? (console.log('Geolocation is not enabled'))
-        : coords ?
-          setsignup({ ...signup, ['latitude']: coords.latitude, ['longitude']: coords.longitude })
-          : console.log('Getting the data')
+  //////////////////////////////////////////////////////////////////////////////////////////////
+  // getting location using gps info
 
-    console.log(signup);
+  // const { coords, isGeolocationAvailable, isGeolocationEnabled } = useGeolocated({
+  //   positionOptions: {
+  //     enableHighAccuracy: true,
+  //     maximumAge: 0,
+  //   },
+  //   userDecisionTimeout: 5000,
+  //   watchPosition: true,
+  // });
+  // const getLocation = () => {
+  //   !isGeolocationAvailable ? (console.log('Your browser does not support Geolocation'))
+  //     : !isGeolocationEnabled ? (console.log('Geolocation is not enabled'))
+  //       : coords ?
+  //         setsignup({ ...signup, ['latitude']: coords.latitude, ['longitude']: coords.longitude })
+  //         : console.log('Getting the data')
+
+  //   console.log(signup);
+  // }
+  ////////////////////////////////////////////////////////////////////////////////////////////
+
+  const getLocation = () => {
+    handleOpen();
   }
   const DataValidator = (placeholder) => {
     let pincodeRegex = /^[0-9]+$/;
@@ -197,9 +239,14 @@ export default function Login({ isUserAuthenticated }) {
   }
 
   //model handler
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  }
 
   return (
     <>
@@ -343,8 +390,17 @@ export default function Login({ isUserAuthenticated }) {
                     </Select>
                   </FormControl>
                 </div>
-                <Button varient='standard' onClick={() => getLocation()}>Get Location</Button>
-
+                <Button varient='standard' onClick={handleOpen}>Get Location</Button>
+                <Modal
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <ModelContainer>
+                    <Map setCoords={setCoords} setOpen = {setOpen} setZoom = {setZoom} zoom = {zoom} lng={coords[1]} lat={coords[0]}/>
+                  </ModelContainer>
+                </Modal>
                 <Button variant='contained' onClick={() => signupUser()} >Sign Up</Button>
                 <Typography>OR</Typography>
                 <Button onClick={() => toggleState()} >Login</Button>
