@@ -1,72 +1,75 @@
-import {useState} from 'react'
-import { InputBase , Box ,styled,Button,FormControl } from '@mui/material';
+import { useState } from 'react'
+import { InputBase, Box, styled, Button, FormControl } from '@mui/material';
 import { useNavigate } from 'react-router-dom'
 import SearchIcon from '@mui/icons-material/Search';
-
+import './styles.css'
 
 const Container = styled(Box)`
         display: flex;
-        background: black;
-        border: 1px solid white;
+        justify-content: space-between;
+        height: 100%;
         width: 100%;
-        justify-content: space-evenly;
         align-items: center;
-        height: 70%;
-        margin: 1.2vh 0;
-        padding:1vh 3vw;
-        border-radius: 5rem;
-        background: transparent;        
-`
+        background: white;
+        border-radius: .7rem;
+        color:black;
+        overflow: hidden;
+        min-height: 50px;
+        box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+        `
 const SearchButton = styled(Box)`
-        color: #fff;
-        width:10%;
+        background-image: linear-gradient(135deg, #f34079 40%, #fc894d);
+        color: white;
+        height: 100%;
+        width: 50px;
         display: flex;
         justify-content: center;
-        align-items: center; 
-        padding:1vh 1vw ;
+        align-items: center;
+        padding: 1%;
+        border-radius: 0.7rem;
+        min-height: 50px;
+        min-width: 50px !important;
+        &>svg{
+                font-size: 30px;
+        }
 
 `
 const InputSearchField = styled(InputBase)`
-        width: 90%;
-        height: 100%;
-        padding: 1% 1%;
-        color:white;
-        &>input{
-                
-        }
+        width: 85%;
+        padding:0 1%;
 `
 
 
 export default function SearchBar() {
 
-        const [searchText,setSearchText] = useState('');
+        const [searchText, setSearchText] = useState('');
         const navigate = useNavigate();
         const handleChange = (e) => {
                 //console.log(e);
-                if(e.target.value === ' ')
+                if (e.target.value === ' ')
                         setSearchText(e.target.value);
                 else
                         setSearchText(e.target.value);
         }
         const handleKeyPress = (e) => {
-                if(e.key === 'Enter'){
+                if (e.key === 'Enter') {
                         SearchProduct();
                 }
         }
-        const SearchProduct = () =>{
+        const SearchProduct = () => {
                 const query = searchText.split(/[ ]+/).join('+')
                 // console.log(query)
                 navigate(`/search/keyword=${query}`)
         }
 
-  return (
-    <div height="100%">
-        <Container>
-                <InputSearchField type='search' onKeyDown={(e)=>handleKeyPress(e)} onSearch={()=>SearchProduct()} onChange={(e)=>handleChange(e)} placeholder='Search the Product...'/>
-                <SearchButton>
-                        <div  onClick={()=>SearchProduct()}><SearchIcon/></div>
-                </SearchButton>
-        </Container>
-    </div>
-  )
+        return (
+                <div height="100%">
+                        <Container>
+                                <InputSearchField onKeyDown={(e) => handleKeyPress(e)} onSearch={() => SearchProduct()} onChange={(e) => handleChange(e)} placeholder='Search the Product...' />
+                                <SearchButton>
+                                        <SearchIcon onClick={() => SearchProduct()} />
+                                </SearchButton>
+                        </Container>
+                </div>
+        )
 }

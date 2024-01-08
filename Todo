@@ -1,0 +1,67 @@
+Completed:
+  1. Search Bar and Params Handling for the category also #complete
+  2. Add OpenStreetMap to the signup Page #complete
+  3. Refractor signUp Page and Login Page #complete
+  5. Header of the App need to refracterd for the mobile view #complete
+  6. SearchBar Css to fit at different pages #complete
+
+
+New Problems:
+  -> Fix the styling of the products
+  -> Fix the Search Page CSS
+  4. Price show with comma
+  3. search for multi word like "mobile phone"
+  1. Flilter Tab verables not setting
+  2. refracter backend calls and apis
+  3. Custom Banners for Adds
+  4. Shop By Category Page
+
+Later Optimizations:
+  1. Optimize the image of category to appropiate size
+
+
+1. fix the create page
+1. Error Handling to avoid crash
+2. search bar not working at searchpage
+3. use openstreet map for map purpose
+2. font change for different value
+3. refactor code
+4. chat custom offer chat boxes and types
+9. category page
+10. category input form
+7. check error after every request
+11. API calls are getting more and more
+#94bbe9
+eeaeca
+551a8b
+
+////////////////////////////////////////////////////////////////
+font problem :
+  filter tab
+////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////
+Create Product Post:
+  //need to store data in lowercase to avoid confusion
+////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////
+Search Bar Working:
+  Request:
+    to send the response instead of inisilizing the params
+    we add them as the params are added
+    in a empty array
+
+  1. search keyword params working
+  2.type can be altered
+  3. only out of state city pincode country state only one is searched at a time
+  4. distance can be altered with slider
+  5. and price is changed at frontend
+  6. category goes with the filter 
+  so only six property can go together
+////////////////////////////////////////////////////////////////
+
+if picture take not load then its the url problem
+
+//before going to deploy
+remove the start command from the server.js

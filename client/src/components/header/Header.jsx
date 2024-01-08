@@ -13,30 +13,56 @@ import { UserData } from '../../constant/variable';
 import { getAccessToken } from '../../utils/common-utils';
 import { API } from '../../service/api';
 
+import './header.css';
 
 
 const Container = styled(Box)`
+        width: 100vw;
+        height: 10vh;
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
-        height: 10vh;
-        color: white;
-        width: 100vw;    
+        @media screen and (max-width:426px) {
+                display: block;
+                height: 15vh;   
+        }
 `
+const LoginWrapper = styled(Box)`
+        padding: 1%;
+        color: black;
+        &>a{
+                text-decoration: none;
+                color: red;
+        }
+        @media screen and (max-width:426px ) {
+                position: absolute;
+                top:0;
+                right: 0;
+
+        }
+`
+
 const Logo = styled(Link)`
         text-decoration: none;
         font-family: 'Whisper', cursive;
-        display: flex;
-        width: 25vw;
-        padding: 0 2vw;
-        float: left;
-        color: #fff;
-        font-size:4vh;
+        width: 20vw;
+        text-align: center;
+        color:black;
+        font-size:5vh;
+        @media screen and (max-width:426px ) {
+                width: 100%;
+                display: block;
+        }
 `
 const SearchbarWrapper = styled(Box)`
-        width:60vw;
-        height: 100%;
+        width:100%;
+        display: flex;
+        &>div{
+                width: 100%;
+        }
+        @media screen and (max-width:426px) {
+                padding:1vh 5vw 0 5vw;
+        }
+
 `
 
 const UserIcon = styled(AccountCircleIcon)`
@@ -48,7 +74,6 @@ const UsernameWrapper = styled(Button)`
         flex-direction: column;
         position: relative;
         float: right;
-        color:white;
         width: 100%;
         &>div{
                 font-size: 1vw;
@@ -72,10 +97,10 @@ export default function Header({ isAuthenticated, isUserAuthenticated }) {
         const handleClose = () => {
                 setAnchorEl(null);
         };
-        const logout = async() => {
+        const logout = async () => {
                 let accesstoken = getAccessToken().split(' ')[1];
                 console.log(accesstoken);
-                await API.logout({token:accesstoken});
+                await API.logout({ token: accesstoken });
                 isUserAuthenticated(false);
                 setAccount(UserData);
                 sessionStorage.removeItem('refreshToken');
@@ -83,13 +108,11 @@ export default function Header({ isAuthenticated, isUserAuthenticated }) {
                 handleClose();
         }
 
-
-
-        return (
-                <>
+        function header() {
+                return (
                         <Container>
                                 <Logo to='/'>RentApp</Logo>
-                                <SearchbarWrapper ><SearchBar/></SearchbarWrapper>
+                                <SearchbarWrapper ><SearchBar /></SearchbarWrapper>
                                 {
                                         isAuthenticated ?
                                                 <div >
@@ -117,12 +140,61 @@ export default function Header({ isAuthenticated, isUserAuthenticated }) {
                                                                 <MenuItem onClick={handleClose}><Link to='/sell' style={{ textDecoration: 'none' }}>Sell</Link></MenuItem>
                                                                 <MenuItem onClick={handleClose}><Link to='/wishlist' style={{ textDecoration: 'none' }}>Wishlist</Link></MenuItem>
 
-                                                                <MenuItem onClick={()=>logout()}>Logout</MenuItem>
+                                                                <MenuItem onClick={() => logout()}>Logout</MenuItem>
                                                         </Menu>
                                                 </div>
                                                 :
                                                 <Link to={'/login'} style={{ textDecoration: 'none', width: '10vw', fontSize: '2vw', color: 'white' }}>Login / Sign Up</Link>
                                 }
+                        </Container>
+                )
+        }
+
+
+
+        return (
+                <>
+                        <Container>
+                                <Logo to='/'>RentApp</Logo>
+                                <SearchbarWrapper>
+                                        <SearchBar />
+                                </SearchbarWrapper>
+                                <LoginWrapper>
+                                        {
+                                                isAuthenticated ?
+                                                        <div >
+                                                                <UsernameWrapper
+                                                                        id="basic-button"
+                                                                        aria-controls={open ? 'basic-menu' : undefined}
+                                                                        aria-haspopup="true"
+                                                                        aria-expanded={open ? 'true' : undefined}
+                                                                        onClick={handleClick}
+                                                                >
+                                                                        <UserIcon />
+                                                                        <div>{account.name}</div>
+                                                                </UsernameWrapper>
+                                                                <Menu
+                                                                        id="basic-menu"
+                                                                        anchorEl={anchorEl}
+                                                                        open={open}
+                                                                        onClose={handleClose}
+                                                                        MenuListProps={{
+                                                                                'aria-labelledby': 'basic-button',
+                                                                        }}
+                                                                >
+                                                                        <MenuItem onClick={handleClose}><Link to={`/profile/${account.email}`} style={{ textDecoration: 'none' }}>Profile</Link></MenuItem>
+                                                                        <MenuItem onClick={handleClose}><Link to='/account' style={{ textDecoration: 'none' }}>My account</Link></MenuItem>
+                                                                        <MenuItem onClick={handleClose}><Link to='/sell' style={{ textDecoration: 'none' }}>Sell</Link></MenuItem>
+                                                                        <MenuItem onClick={handleClose}><Link to='/wishlist' style={{ textDecoration: 'none' }}>Wishlist</Link></MenuItem>
+
+                                                                        <MenuItem onClick={() => logout()}>Logout</MenuItem>
+                                                                </Menu>
+                                                        </div>
+                                                        :
+                                                        <Link to={'/login'} style={{ }}>Login</Link>
+                                        }
+                                </LoginWrapper>
+                                
                         </Container>
                 </>
         )

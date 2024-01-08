@@ -1,25 +1,24 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { styled, Box, Button, Typography } from '@mui/material';
-import TextField from '@mui/material/TextField';
-import { useGeolocated } from 'react-geolocated';
+//Library Imports
+import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { API } from '../../service/api';
+import { styled, Box, Button, Typography, FormControl, Select, TextField, MenuItem, InputLabel, Modal } from '@mui/material';
 import { Country, State, City } from 'country-state-city';
-
-import { FormControl, Select, MenuItem, InputLabel, Modal } from '@mui/material'
-
-import { DataContext } from '../../context/DataProvider';
-
-import './styles.css';
-import { UserData } from '../../constant/variable';
-import { countryList, countryListWithCode } from '../../constant/data';
+//Components
 import Map from '../map/Map';
+//Varibles and Data
+import { API } from '../../service/api';
+import { DataContext } from '../../context/DataProvider';
+import { UserData } from '../../constant/variable';
+import { countryListWithCode } from '../../constant/data';
+//CSS File
+import './styles.css';
 
+
+//Styled Components
 const Wrapper = styled(Box)`
   display: flex;
   flex-direction: row;
   height: 100vh;
-
 `
 const HalfWrapper = styled(Box)`
     width: 50vw;
@@ -61,13 +60,13 @@ const FormWrapper = styled(Box)`
   width: 100%;
   height: 100%;
   align-items: center;
+  overflow-y: auto;
   & > div{
     margin: 1vh 1vw;
     width: 80%;
   }
   
 `
-
 const ModelContainer = styled(Box)`
   position: absolute;
   top:50%;
@@ -92,46 +91,53 @@ const initialLogin = {
 export default function Login({ isUserAuthenticated }) {
   let initialSignUp = UserData;
 
+  const navigate = useNavigate();
+  const { setAccount, setwishlist } = useContext(DataContext);
+  //useState Variables
+
   const [state, setState] = useState('signup');
   const [login, setlogin] = useState(initialLogin);
   const [signup, setsignup] = useState(initialSignUp);
-  const [error, showError] = useState('');
-  const { setAccount, setwishlist } = useContext(DataContext);
-  const navigate = useNavigate();
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
-  const [coordinates, setCoordinates] = useState({ longitude: '', latitude: '' });
-  const [coords,setCoords] = useState([28.733898510530132,77.20300044368255]);
-  const [zoom,setZoom] = useState(12);
+  const [coords, setCoords] = useState([28.733898510530132, 77.20300044368255]);
+  const [zoom, setZoom] = useState(12);
+  const [error, showError] = useState('');
+  const [open, setOpen] = useState(false);
 
   //set all the address fields
   useEffect(() => {
     // when country is set load all the state of the respective country
-    // states = CountriesApi.gets
-    // countires cordinates
     let country = Country.getCountryByCode(signup.country);
-    setCoords([country?.latitude,country?.longitude]);
+    setCoords([country?.latitude, country?.longitude]);
     console.log(coords);
     setStates(State.getStatesOfCountry(signup.country));
+    setsignup({...signup,["country"]:country?.name})
     // console.log(states);
     // console.log(signup.country);
   }, [signup.country])
   useEffect(() => {
     //set cities based of the state selected
-    let state = State.getStateByCodeAndCountry(signup.state,signup.country);
-    setCoords([state?.latitude,state?.longitude ]);
+    let state = State.getStateByCodeAndCountry(signup.state, signup.country);
+    setCoords([state?.latitude, state?.longitude]);
+    setsignup({...signup,["state"]:state?.name})
     setZoom(9);
     setCities(City.getCitiesOfState(signup.country, signup.state));
   }, [signup.state])
-
   useEffect(() => {
     cities.forEach(city => {
-      if(city.name === signup.city){
-        setCoords([city?.latitude,city?.longitude]);
+      if (city.name === signup.city) {
+        setCoords([city?.latitude, city?.longitude]);
         setZoom(12);
       }
     });
   }, [signup.city]);
+  useEffect(() => {
+    setsignup({ ...signup, ["latitude"]: coords[0], ["longitude"]: coords[1] });
+    //console.log(signup)
+  }, [coords])
+
+  //Helper Methods
   const toggleState = () => {
     if (state === 'login') {
       setState('signup')
@@ -175,10 +181,6 @@ export default function Login({ isUserAuthenticated }) {
   //   console.log(signup);
   // }
   ////////////////////////////////////////////////////////////////////////////////////////////
-
-  const getLocation = () => {
-    handleOpen();
-  }
   const DataValidator = (placeholder) => {
     let pincodeRegex = /^[0-9]+$/;
     if (placeholder === "email" || placeholder === "password" || placeholder === "pincode") {
@@ -223,10 +225,13 @@ export default function Login({ isUserAuthenticated }) {
     }
   }
   const signupUser = async () => {
+
     if (error.length > 0) {
       showError('Please remove errors');
       return;
     }
+
+    //console.log(signup);
 
     let response = await API.userSignup(signup);
     if (response.isSuccess) {
@@ -237,13 +242,10 @@ export default function Login({ isUserAuthenticated }) {
       showError('Something went wrong! please try again later');
     }
   }
-
   //model handler
-  const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true)
   }
-
   const handleClose = () => {
     setOpen(false);
   }
@@ -398,7 +400,7 @@ export default function Login({ isUserAuthenticated }) {
                   aria-describedby="modal-modal-description"
                 >
                   <ModelContainer>
-                    <Map setCoords={setCoords} setOpen = {setOpen} setZoom = {setZoom} zoom = {zoom} lng={coords[1]} lat={coords[0]}/>
+                    <Map setCoords={setCoords} setOpen={setOpen} setZoom={setZoom} zoom={zoom} lng={coords[1]} lat={coords[0]} />
                   </ModelContainer>
                 </Modal>
                 <Button variant='contained' onClick={() => signupUser()} >Sign Up</Button>
