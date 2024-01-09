@@ -44,6 +44,7 @@ const Grid = styled(Box)`
     height: 25vh;
     border-radius: 1rem;
     overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     &>p{
         color: white;
         text-align: center;
@@ -58,13 +59,24 @@ const Grid = styled(Box)`
     }
 `
 
+const Title = styled(Box)`
+    height:5vh;
+    font-size: 31px;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 1vh;
+    @media screen and (max-width:426px) {
+        font-size: 5vw;
+    }
+`
+
 export default function ShopByCategory() {
 
     const navigate = useNavigate();
 
     return (
         <Wrapper>
-            <h1>Shop By Category</h1>
+            <Title>Shop By Category</Title>
             <Container>
 
 

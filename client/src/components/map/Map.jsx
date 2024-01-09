@@ -5,11 +5,12 @@ import { Box, styled } from '@mui/material'
 import { DataContext } from '../../context/DataProvider'
 
 
-export default function Map({zoom,setOpen,lat,lng,setCoords}) {
+export default function Map({zoom,view,setOpen,lat,lng,setCoords}) {
     const Container = styled(MapContainer)`
         width: 100%;
         height: 100%;
     `
+    let viewMode = false || view
     
     const center = {
         lng: lng || 77.20300044368255,
@@ -41,9 +42,8 @@ export default function Map({zoom,setOpen,lat,lng,setCoords}) {
                 <TileLayer
                     url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                 />
-                <HandleClick/>
+                {!view?<HandleClick/>:<></>}
                 <Marker position={position}/>
-                
             </Container>
         </div>
     )

@@ -1,31 +1,37 @@
-import React, { useContext, useEffect, useState } from 'react'
-import SwiperProduct from '../swiperProductView/SwiperProduct'
+import { useContext, useEffect, useState } from 'react'
+import {Box,styled}from '@mui/material'
+//Constants
 import { DataContext } from '../../context/DataProvider'
 import { API } from '../../service/api'
-
-import {Box,styled}from '@mui/material'
 import { LocationDefault } from '../../constant/variable'
-import SearchBar from '../searchbar/SearchBar'
+//Components
+import SwiperProduct from '../swiperProductView/SwiperProduct'
 import ShopByCategory from '../shopby/ShopByCategory'
-import { Link } from 'react-router-dom'
 
+//Styled Components
 const Container = styled(Box)`
   padding: 0 1vw;
-  font-size: large;
   font-weight: bold;
   text-transform: uppercase;
 `
-
+const Title = styled(Box)`
+    height:5vh;
+    font-size: 31px;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 1vh;
+    @media screen and (max-width:426px) {
+        font-size: 5vw;
+    }
+`
 
 export default function Home({ isAuthenticated }) {
-
+  //init value
   const location = LocationDefault;
-
+  //state variables
   const { account } = useContext(DataContext);
   const [nearbyProducts, setNearbyProducts] = useState([]);
   const [cityProduct, setCityProdcuts] = useState([]);
-
-
 
   useEffect(() => {
     const getNearbyProducts = async () => {
@@ -45,19 +51,18 @@ export default function Home({ isAuthenticated }) {
       getNearbyProducts();
       getCityProducts();
   }, []);
+
   return (
     <div style={{ height: '90vh', overflowY: 'scroll', padding: '1vh 0' }}>
-      <Link to='/map'>helllo</Link>
       <ShopByCategory/>
       <Container>
-        <label>Products Near You</label>
+        <Title>Products Near You</Title>
         <SwiperProduct products={nearbyProducts} />
       </Container>
       <Container>
-        <label>Products From {account.city||location.city}</label>
+        <Title>Products From {account.city||location.city}</Title>
       <SwiperProduct products={cityProduct} />
       </Container>
-      
     </div>
   )
 }

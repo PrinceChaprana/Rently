@@ -15,7 +15,6 @@ const Container = styled(Box)`
         color:black;
         overflow: hidden;
         min-height: 50px;
-        box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
         `
 const SearchButton = styled(Box)`
         background-image: linear-gradient(135deg, #f34079 40%, #fc894d);

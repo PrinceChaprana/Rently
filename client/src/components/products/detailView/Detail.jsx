@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams,useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { ProductData } from '../../../constant/variable';
 import { API } from '../../../service/api';
 
-import { Box, styled ,Typography,Button } from '@mui/material'
+import { Box, styled, Typography, Button } from '@mui/material'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { DataContext } from '../../../context/DataProvider';
+import Map from '../../map/Map'
 
 const Container = styled(Box)`
         padding: 2vh 10vw 0 10vw;
@@ -147,32 +148,37 @@ const Description = styled(Box)`
                 background: #f4f4f4;
         }
 `
+const MapContainer = styled(Box)`
+        width:100%;
+        height: 30vh;
+`
 
 
 export default function Detail() {
         const { id } = useParams();
         const navigate = useNavigate();
-        const {account,setSelectedProduct} = useContext(DataContext);
+        const { account, setSelectedProduct } = useContext(DataContext);
         const [product, setProduct] = useState([]);
+        const [coord, setCoord] = useState([]);
 
-        const WishlistProduct = async(id)=>{
-                let response = await API.wishlist({email:account.email,id:id});
-                if(response.isSuccess)
-                  alert('added to wishlist')
+        const WishlistProduct = async (id) => {
+                let response = await API.wishlist({ email: account.email, id: id });
+                if (response.isSuccess)
+                        alert('added to wishlist')
                 else
-                  alert('failed to add');
+                        alert('failed to add');
         }
-        useEffect(()=>{
+        useEffect(() => {
                 //for moving localhost images to server of deployment
-                if(process.env.NODE_ENV==="production"){
-                let url = product.picture;
-                  if(url?.picture?.includes("localhost")){
-                    let urlparts = url.picture.split("/");
-                    product.picture = "https://rentingapp-f731e611bb2b.herokuapp.com/"+urlparts[3]+"/"+urlparts[4];
-                    //console.log(url,urlparts);
-                  }
+                if (process.env.NODE_ENV === "production") {
+                        let url = product.picture;
+                        if (url?.picture?.includes("localhost")) {
+                                let urlparts = url.picture.split("/");
+                                product.picture = "https://rentingapp-f731e611bb2b.herokuapp.com/" + urlparts[3] + "/" + urlparts[4];
+                                //console.log(url,urlparts);
+                        }
                 }
-              },[])
+        }, [])
 
         const MakeOffer = () => {
                 setSelectedProduct(product);
@@ -182,11 +188,15 @@ export default function Detail() {
         useEffect(() => {
                 const getProduct = async () => {
                         let response = await API.getAllProducts({ id: id });
-                        if (response.isSuccess)
+                        if (response.isSuccess) {
                                 setProduct(response.data);
+                                setCoord([response.data.location.coordinates[0], response.data.location.coordinates[1]]);
+                        }
                 }
                 getProduct();
         }, []);
+
+        console.log(coord);
 
         return (
                 <Container>
@@ -197,18 +207,25 @@ export default function Detail() {
                                                 <Title>{product.name}</Title>
                                                 <Price>₹{product.price}</Price>
                                         </BasicInfo>
-                                        <UserInfo onClick={()=>navigate(`/profile/${product.username}`)}>
-                                                <AccountCircleIcon/>
+                                        <UserInfo onClick={() => navigate(`/profile/${product.username}`)}>
+                                                <AccountCircleIcon />
                                                 <div >{product.username}</div>
                                         </UserInfo>
                                         <ButtonWrapper>
-                                                <WishlistButton onClick={()=>WishlistProduct()} >Add to Wishlist</WishlistButton>
-                                                <OfferButton onClick={()=>MakeOffer()}>Make Offer</OfferButton>
+                                                <WishlistButton onClick={() => WishlistProduct()} >Add to Wishlist</WishlistButton>
+                                                <OfferButton onClick={() => MakeOffer()}>Make Offer</OfferButton>
                                         </ButtonWrapper>
                                         <AddressInfo>
-                                                <LocationOnIcon/>
+                                                <LocationOnIcon />
                                                 <div>{product.city}, {product.state}, {product.country}</div>
                                         </AddressInfo>
+                                        <MapContainer>
+                                                {
+                                                        coord.length > 0?
+                                                                <Map zoom={16} view={true} lat={coord[1]} lng={coord[0]} />
+                                                        :<></>
+                                                }
+                                        </MapContainer>
                                         <Description>
                                                 <h2>Description</h2>
                                                 <p>{product.discription}</p>

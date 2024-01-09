@@ -22,6 +22,7 @@ const Container = styled(Box)`
   background: white;
   height: 50vh;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
   &>div>button{
     position: relative;
     float:right;
